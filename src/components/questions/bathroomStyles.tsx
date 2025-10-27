@@ -1,7 +1,7 @@
 "use client";
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 
 export type BathroomStylesProps = {
     name: string;
@@ -11,6 +11,15 @@ export type BathroomStylesProps = {
 }[];
 
 export default function BathroomStyles({ styles }: { styles: BathroomStylesProps }) {
+  const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
+  
+
+  const handleClick = (style: { name: string; price: number }) => {
+    console.log(style.price);
+    setSelectedStyle(style.name);
+  };
+
+
     return (
       <section>
         <div className="container px-4 mx-auto">
@@ -19,14 +28,16 @@ export default function BathroomStyles({ styles }: { styles: BathroomStylesProps
             {styles.map((style) => (
               <Card
                 key={style.name}
-                className="mb-4 flex justify-around"
+                className={`mb-4 flex-1 justify-around cursor-pointer ${
+                  selectedStyle === style.name
+                    ? "outline-4 outline-blue-400 transition-all"
+                    : ""
+                }`}
+                onClick={() => handleClick(style)}
               >
                 <CardHeader>
                   <CardTitle>{style.name}</CardTitle>
                   <CardDescription>{style.description}</CardDescription>
-                  <CardAction>
-                    <Check />
-                  </CardAction>
                 </CardHeader>
                 <CardContent>
                   <Image

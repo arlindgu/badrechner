@@ -1,14 +1,32 @@
 "use client";
 
 import BathroomAttachements from "@/components/questions/bathroomAttachements";
-import BathroomConfiguration, { BathroomConfigurationProps } from "@/components/questions/bathroomConfiguration";
-import BathroomEtages, { BathroomEtageProps } from "@/components/questions/bathroomEtages";
+import BathroomConfiguration, {
+  BathroomConfigurationProps,
+} from "@/components/questions/bathroomConfiguration";
+import BathroomEtages, {
+  BathroomEtageProps,
+} from "@/components/questions/bathroomEtages";
 import BathroomMeasures from "@/components/questions/bathroomMeasures";
-import BathroomProjectType, { BathroomAgeProps, BathroomProjectTypeProps } from "@/components/questions/bathroomProjecttype";
-import BathroomStandards, { BathroomStandardProps } from "@/components/questions/bathroomStandards";
-import BathroomStyles, { BathroomStylesProps } from "@/components/questions/bathroomStyles";
+import BathroomProjectType, {
+  BathroomAgeProps,
+  BathroomProjectTypeProps,
+} from "@/components/questions/bathroomProjecttype";
+import BathroomStandards, {
+  BathroomStandardProps,
+} from "@/components/questions/bathroomStandards";
+import BathroomStyles, {
+  BathroomStylesProps,
+} from "@/components/questions/bathroomStyles";
 import { Button } from "@/components/ui/button";
-import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Bath, Check } from "lucide-react";
@@ -26,18 +44,22 @@ export default function Home() {
 
   const bathroomEtage: BathroomEtageProps = [
     {
-      name: "EG – Erdgeschoss"
+      name: "EG",
+      description: "Das Badezimmer befindet sich im Erdgeschoss.",
     },
     {
-      name: "1. OG – 1. Obergeschoss"
+      name: "1. OG",
+      description: "Das Badezimmer befindet sich im ersten Obergeschoss.",
     },
     {
-      name: "2. OG – 2. Obergeschoss"
+      name: "2. OG",
+      description: "Das Badezimmer befindet sich im zweiten Obergeschoss.",
     },
     {
-      name: "+3. OG – 3. Obergeschoss oder höher"
-    }
-  ]
+      name: "+3. OG",
+      description: "Das Badezimmer befindet sich im dritten Obergeschoss oder höher.",
+    },
+  ];
 
   const bathroomStandard: BathroomStandardProps = [
     {
@@ -51,17 +73,17 @@ export default function Home() {
     {
       name: "Gehoben",
       price: "83'000 – 96'000+ CHF",
-    }
-  ]
+    },
+  ];
 
   const bathroomAge: BathroomAgeProps = [
     {
-      name: "1991 oder älter"
+      name: "1991 oder älter",
     },
     {
-      name: "1992 oder neuer"
-    }
-  ]
+      name: "1992 oder neuer",
+    },
+  ];
 
   const bathroomProjectType: BathroomProjectTypeProps = [
     {
@@ -70,20 +92,23 @@ export default function Home() {
     },
     {
       name: "Umbau",
-      description: "Verwandeln Sie Ihr bestehendes Badezimmer in eine moderne Oase.",
-    }
-  ]
+      description:
+        "Verwandeln Sie Ihr bestehendes Badezimmer in eine moderne Oase.",
+    },
+  ];
 
   const bathroomConfiguration: BathroomConfigurationProps = [
     {
       name: "Waschtisch mit Unterschrank Einzel",
-      description: "Ein stilvoller Waschtisch mit einem Waschbecken und praktischem Unterschrank.",
+      description:
+        "Ein stilvoller Waschtisch mit einem Waschbecken und praktischem Unterschrank.",
       picture: "/waschtisch_einzel.png",
       price: 500,
     },
     {
       name: "Waschtisch mit Unterschrank Doppelt",
-      description: "Ein geräumiger Waschtisch mit zwei Waschbecken und viel Stauraum.",
+      description:
+        "Ein geräumiger Waschtisch mit zwei Waschbecken und viel Stauraum.",
       picture: "/waschtisch_doppelt.png",
       price: 800,
     },
@@ -101,7 +126,8 @@ export default function Home() {
     },
     {
       name: "Wandbelagung",
-      description: "Hochwertige Fliesen und Wandverkleidungen für ein elegantes Badezimmer.",
+      description:
+        "Hochwertige Fliesen und Wandverkleidungen für ein elegantes Badezimmer.",
       picture: "/wandbelagung.png",
       price: 400,
     },
@@ -131,7 +157,8 @@ export default function Home() {
     },
     {
       name: "Accessoires",
-      description: "Praktische und dekorative Accessoires für das perfekte Badezimmer.",
+      description:
+        "Praktische und dekorative Accessoires für das perfekte Badezimmer.",
       picture: "/accessoires.png",
       price: 150,
     },
@@ -143,13 +170,15 @@ export default function Home() {
     },
     {
       name: "Dusche Bodengleich",
-      description: "Bodengleiche Duschen für einen modernen Look und barrierefreien Zugang.",
+      description:
+        "Bodengleiche Duschen für einen modernen Look und barrierefreien Zugang.",
       picture: "/dusche_bodengleich.png",
       price: 900,
     },
     {
       name: "Dusche Bodengleich mit Glasswand",
-      description: "Bodengleiche Duschen mit eleganten Glaswänden für ein offenes Raumgefühl.",
+      description:
+        "Bodengleiche Duschen mit eleganten Glaswänden für ein offenes Raumgefühl.",
       picture: "/dusche_bodengleich_glasswand.png",
       price: 1100,
     },
@@ -158,14 +187,14 @@ export default function Home() {
       description: "Klassische WC-Modelle für jeden Bedarf.",
       picture: "/standard_wc.png",
       price: 400,
-    }, 
+    },
     {
       name: "Dusch-WC",
       description: "Moderne Dusch-WCs mit integrierter Reinigungsfunktion.",
       picture: "/dusch_wc.png",
       price: 900,
-    }
-  ]
+    },
+  ];
 
   const bathroomStyles: BathroomStylesProps = [
     {
@@ -196,10 +225,14 @@ export default function Home() {
 
   const handleNextStep = () => {
     setStep(step + 1);
-  }
+  };
+
+  const handleReturnStep = () => {
+    setStep(step - 1);
+  };
 
   return (
-    <main>
+    <main className=" place-content-center max-w-5xl mx-auto min-h-screen">
       {step === 0 && (
         <Button onClick={() => handleNextStep()}>
           Start Bathroom Questionnaire
@@ -207,16 +240,31 @@ export default function Home() {
       )}
 
       {step === 1 && (
-        <div>
+        <div className="flex flex-col justify-center">
           <BathroomStyles styles={bathroomStyles} />
-          <Button onClick={() => handleNextStep()}>Next</Button>
+          <div className="flex justify-center gap-8 items-center border mt-4">
+            <Button size="lg" onClick={() => handleNextStep()}>
+              Next
+            </Button>
+          </div>
         </div>
       )}
 
       {step === 2 && (
-        <div>
+        <div className="flex flex-col justify-center w-full">
           <BathroomConfiguration configuration={bathroomConfiguration} />
-          <Button onClick={() => handleNextStep()}>Next</Button>
+          <div className="flex justify-center gap-8 items-center border mt-4">
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => handleReturnStep()}
+            >
+              Return
+            </Button>
+            <Button size="lg" onClick={() => handleNextStep()}>
+              Next
+            </Button>
+          </div>
         </div>
       )}
 
@@ -226,35 +274,90 @@ export default function Home() {
             ageData={bathroomAge}
             ProjectTypeData={bathroomProjectType}
           />
-          <Button onClick={() => handleNextStep()}>Next</Button>
+          <div className="flex justify-center gap-8 items-center border mt-4">
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => handleReturnStep()}
+            >
+              Return
+            </Button>
+            <Button size="lg" onClick={() => handleNextStep()}>
+              Next
+            </Button>
+          </div>
         </div>
       )}
 
       {step === 4 && (
         <div>
           <BathroomMeasures />
-          <Button onClick={() => handleNextStep()}>Next</Button>
+          <div className="flex justify-center gap-8 items-center border mt-4">
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => handleReturnStep()}
+            >
+              Return
+            </Button>
+            <Button size="lg" onClick={() => handleNextStep()}>
+              Next
+            </Button>
+          </div>
         </div>
       )}
 
       {step === 5 && (
         <div>
           <BathroomStandards standardsData={bathroomStandard} />
-          <Button onClick={() => handleNextStep()}>Next</Button>
+          <div className="flex justify-center gap-8 items-center border mt-4">
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => handleReturnStep()}
+            >
+              Return
+            </Button>
+            <Button size="lg" onClick={() => handleNextStep()}>
+              Next
+            </Button>
+          </div>
         </div>
       )}
 
       {step === 6 && (
         <div>
           <BathroomEtages etagesData={bathroomEtage} />
-          <Button onClick={() => handleNextStep()}>Next</Button>
+          <div className="flex justify-center gap-8 items-center border mt-4">
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => handleReturnStep()}
+            >
+              Return
+            </Button>
+            <Button size="lg" onClick={() => handleNextStep()}>
+              Next
+            </Button>
+          </div>
         </div>
       )}
 
       {step === 7 && (
         <div>
           <BathroomAttachements />
-          <Button onClick={() => handleNextStep()}>Next</Button>
+          <div className="flex justify-center gap-8 items-center border mt-4">
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => handleReturnStep()}
+            >
+              Return
+            </Button>
+            <Button size="lg" onClick={() => handleNextStep()}>
+              Next
+            </Button>
+          </div>
         </div>
       )}
 
@@ -265,7 +368,11 @@ export default function Home() {
             Wir werden uns in Kürze mit einer detaillierten Kostenschätzung bei
             Ihnen melden.
           </p>
-          <Button onClick={() => setStep(0)}> Neustarten </Button>
+          <div className="flex justify-center gap-8 items-center border mt-4">
+            <Button size="lg" variant="outline" onClick={() => setStep(0)}>
+              Neustarten
+            </Button>
+          </div>
         </div>
       )}
     </main>

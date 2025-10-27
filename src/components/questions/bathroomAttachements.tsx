@@ -6,7 +6,7 @@ export default function BathroomAttachements() {
       <section>
         <div className="container px-4 mx-auto">
           <h2 className="text-3xl mb-6">Laden Sie Ihre Pläne und Fotos hoch</h2>
-          <div className="grid w-full max-w-sm items-center gap-3">
+          <div className="items-center justify-center gap-3">
             <Label htmlFor="length">Bilder hochladen</Label>
             <Input id="length" type="file" />
           </div>
