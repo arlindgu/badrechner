@@ -242,7 +242,7 @@ export default function Home() {
       {step === 1 && (
         <div className="flex flex-col justify-center">
           <BathroomStyles styles={bathroomStyles} />
-          <div className="flex justify-center gap-8 items-center border mt-4">
+          <div className="flex justify-center gap-8 items-center mt-4">
             <Button size="lg" onClick={() => handleNextStep()}>
               Next
             </Button>
@@ -253,7 +253,7 @@ export default function Home() {
       {step === 2 && (
         <div className="flex flex-col justify-center w-full">
           <BathroomConfiguration configuration={bathroomConfiguration} />
-          <div className="flex justify-center gap-8 items-center border mt-4">
+          <div className="flex justify-center gap-8 items-center mt-4">
             <Button
               size="lg"
               variant="outline"
@@ -274,7 +274,7 @@ export default function Home() {
             ageData={bathroomAge}
             ProjectTypeData={bathroomProjectType}
           />
-          <div className="flex justify-center gap-8 items-center border mt-4">
+          <div className="flex justify-center gap-8 items-center mt-4">
             <Button
               size="lg"
               variant="outline"
@@ -292,7 +292,7 @@ export default function Home() {
       {step === 4 && (
         <div>
           <BathroomMeasures />
-          <div className="flex justify-center gap-8 items-center border mt-4">
+          <div className="flex justify-center gap-8 items-center mt-4">
             <Button
               size="lg"
               variant="outline"
@@ -310,7 +310,7 @@ export default function Home() {
       {step === 5 && (
         <div>
           <BathroomStandards standardsData={bathroomStandard} />
-          <div className="flex justify-center gap-8 items-center border mt-4">
+          <div className="flex justify-center gap-8 items-center mt-4">
             <Button
               size="lg"
               variant="outline"
@@ -328,7 +328,7 @@ export default function Home() {
       {step === 6 && (
         <div>
           <BathroomEtages etagesData={bathroomEtage} />
-          <div className="flex justify-center gap-8 items-center border mt-4">
+          <div className="flex justify-center gap-8 items-center mt-4">
             <Button
               size="lg"
               variant="outline"
@@ -346,7 +346,7 @@ export default function Home() {
       {step === 7 && (
         <div>
           <BathroomAttachements />
-          <div className="flex justify-center gap-8 items-center border mt-4">
+          <div className="flex justify-center gap-8 items-center mt-4">
             <Button
               size="lg"
               variant="outline"
@@ -368,7 +368,7 @@ export default function Home() {
             Wir werden uns in Kürze mit einer detaillierten Kostenschätzung bei
             Ihnen melden.
           </p>
-          <div className="flex justify-center gap-8 items-center border mt-4">
+          <div className="flex justify-center gap-8 items-center mt-4">
             <Button size="lg" variant="outline" onClick={() => setStep(0)}>
               Neustarten
             </Button>
