@@ -1,65 +1,273 @@
+"use client";
+
+import BathroomAttachements from "@/components/questions/bathroomAttachements";
+import BathroomConfiguration, { BathroomConfigurationProps } from "@/components/questions/bathroomConfiguration";
+import BathroomEtages, { BathroomEtageProps } from "@/components/questions/bathroomEtages";
+import BathroomMeasures from "@/components/questions/bathroomMeasures";
+import BathroomProjectType, { BathroomAgeProps, BathroomProjectTypeProps } from "@/components/questions/bathroomProjecttype";
+import BathroomStandards, { BathroomStandardProps } from "@/components/questions/bathroomStandards";
+import BathroomStyles, { BathroomStylesProps } from "@/components/questions/bathroomStyles";
+import { Button } from "@/components/ui/button";
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Bath, Check } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Home() {
+  const [selectedEtage, setSelectedEtage] = useState(null);
+  const [selectedStandard, setSelectedStandard] = useState(null);
+  const [selectedAge, setSelectedAge] = useState(null);
+  const [selectedProjectType, setSelectedProjectType] = useState(null);
+  const [selectedConfiguration, setSelectedConfiguration] = useState(null);
+  const [selectedStyle, setSelectedStyle] = useState(null);
+  const [step, setStep] = useState(1);
+
+  const bathroomEtage: BathroomEtageProps = [
+    {
+      name: "EG – Erdgeschoss"
+    },
+    {
+      name: "1. OG – 1. Obergeschoss"
+    },
+    {
+      name: "2. OG – 2. Obergeschoss"
+    },
+    {
+      name: "+3. OG – 3. Obergeschoss oder höher"
+    }
+  ]
+
+  const bathroomStandard: BathroomStandardProps = [
+    {
+      name: "Einfach",
+      price: "45'000 – 60'000 CHF",
+    },
+    {
+      name: "Mittel",
+      price: "58'000 – 70'000 CHF",
+    },
+    {
+      name: "Gehoben",
+      price: "83'000 – 96'000+ CHF",
+    }
+  ]
+
+  const bathroomAge: BathroomAgeProps = [
+    {
+      name: "1991 oder älter"
+    },
+    {
+      name: "1992 oder neuer"
+    }
+  ]
+
+  const bathroomProjectType: BathroomProjectTypeProps = [
+    {
+      name: "Neubau",
+      description: "Planen Sie Ihr neues Badezimmer von Grund auf neu.",
+    },
+    {
+      name: "Umbau",
+      description: "Verwandeln Sie Ihr bestehendes Badezimmer in eine moderne Oase.",
+    }
+  ]
+
+  const bathroomConfiguration: BathroomConfigurationProps = [
+    {
+      name: "Waschtisch mit Unterschrank Einzel",
+      description: "Ein stilvoller Waschtisch mit einem Waschbecken und praktischem Unterschrank.",
+      picture: "/waschtisch_einzel.png",
+      price: 500,
+    },
+    {
+      name: "Waschtisch mit Unterschrank Doppelt",
+      description: "Ein geräumiger Waschtisch mit zwei Waschbecken und viel Stauraum.",
+      picture: "/waschtisch_doppelt.png",
+      price: 800,
+    },
+    {
+      name: "Armaturen",
+      description: "Moderne Armaturen für Waschtisch, Dusche und Badewanne.",
+      picture: "/armaturen.png",
+      price: 300,
+    },
+    {
+      name: "Spiegel",
+      description: "Verschiedene Spiegeloptionen, von schlicht bis beleuchtet.",
+      picture: "/spiegel.png",
+      price: 200,
+    },
+    {
+      name: "Wandbelagung",
+      description: "Hochwertige Fliesen und Wandverkleidungen für ein elegantes Badezimmer.",
+      picture: "/wandbelagung.png",
+      price: 400,
+    },
+    {
+      name: "Heizkörper",
+      description: "Effiziente und stilvolle Heizkörper für wohlige Wärme.",
+      picture: "/heizkoerper.png",
+      price: 600,
+    },
+    {
+      name: "Badwanne eingebaut",
+      description: "Komfortable Badewannen für entspannende Momente.",
+      picture: "/badewanne_eingebaut.png",
+      price: 1000,
+    },
+    {
+      name: "Dusche freistehend",
+      description: "Moderne Duschen mit verschiedenen Designs und Funktionen.",
+      picture: "/dusche_freistehend.png",
+      price: 1200,
+    },
+    {
+      name: "Bodenbelag",
+      description: "Robuste und stilvolle Bodenbeläge für Ihr Badezimmer.",
+      picture: "/bodenbelag.png",
+      price: 700,
+    },
+    {
+      name: "Accessoires",
+      description: "Praktische und dekorative Accessoires für das perfekte Badezimmer.",
+      picture: "/accessoires.png",
+      price: 150,
+    },
+    {
+      name: "Dusche Normal",
+      description: "Standardduschen mit verschiedenen Designs und Funktionen.",
+      picture: "/dusche_normal.png",
+      price: 800,
+    },
+    {
+      name: "Dusche Bodengleich",
+      description: "Bodengleiche Duschen für einen modernen Look und barrierefreien Zugang.",
+      picture: "/dusche_bodengleich.png",
+      price: 900,
+    },
+    {
+      name: "Dusche Bodengleich mit Glasswand",
+      description: "Bodengleiche Duschen mit eleganten Glaswänden für ein offenes Raumgefühl.",
+      picture: "/dusche_bodengleich_glasswand.png",
+      price: 1100,
+    },
+    {
+      name: "Standard-WC",
+      description: "Klassische WC-Modelle für jeden Bedarf.",
+      picture: "/standard_wc.png",
+      price: 400,
+    }, 
+    {
+      name: "Dusch-WC",
+      description: "Moderne Dusch-WCs mit integrierter Reinigungsfunktion.",
+      picture: "/dusch_wc.png",
+      price: 900,
+    }
+  ]
+
+  const bathroomStyles: BathroomStylesProps = [
+    {
+      name: "Modern",
+      description: "Schlichte Linien und minimalistische Designs.",
+      picture: "/modern.png",
+      price: 1000,
+    },
+    {
+      name: "Klassisch",
+      description: "Zeitlose Eleganz mit traditionellen Elementen.",
+      picture: "/classic.png",
+      price: 1200,
+    },
+    {
+      name: "Industriell",
+      description: "Natürliche Materialien und warme Farben.",
+      picture: "/industrial.png",
+      price: 1500,
+    },
+    {
+      name: "Skandinavisch",
+      description: "Hochwertige Materialien und opulente Details.",
+      picture: "/skandinavian.png",
+      price: 2000,
+    },
+  ];
+
+  const handleNextStep = () => {
+    setStep(step + 1);
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main>
+      {step === 0 && (
+        <Button onClick={() => handleNextStep()}>
+          Start Bathroom Questionnaire
+        </Button>
+      )}
+
+      {step === 1 && (
+        <div>
+          <BathroomStyles styles={bathroomStyles} />
+          <Button onClick={() => handleNextStep()}>Next</Button>
+        </div>
+      )}
+
+      {step === 2 && (
+        <div>
+          <BathroomConfiguration configuration={bathroomConfiguration} />
+          <Button onClick={() => handleNextStep()}>Next</Button>
+        </div>
+      )}
+
+      {step === 3 && (
+        <div>
+          <BathroomProjectType
+            ageData={bathroomAge}
+            ProjectTypeData={bathroomProjectType}
+          />
+          <Button onClick={() => handleNextStep()}>Next</Button>
+        </div>
+      )}
+
+      {step === 4 && (
+        <div>
+          <BathroomMeasures />
+          <Button onClick={() => handleNextStep()}>Next</Button>
+        </div>
+      )}
+
+      {step === 5 && (
+        <div>
+          <BathroomStandards standardsData={bathroomStandard} />
+          <Button onClick={() => handleNextStep()}>Next</Button>
+        </div>
+      )}
+
+      {step === 6 && (
+        <div>
+          <BathroomEtages etagesData={bathroomEtage} />
+          <Button onClick={() => handleNextStep()}>Next</Button>
+        </div>
+      )}
+
+      {step === 7 && (
+        <div>
+          <BathroomAttachements />
+          <Button onClick={() => handleNextStep()}>Next</Button>
+        </div>
+      )}
+
+      {step === 8 && (
+        <div>
+          <h2 className="text-3xl mb-6">Vielen Dank für Ihre Angaben!</h2>
+          <p>
+            Wir werden uns in Kürze mit einer detaillierten Kostenschätzung bei
+            Ihnen melden.
           </p>
+          <Button onClick={() => setStep(0)}> Neustarten </Button>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      )}
+    </main>
   );
 }
