@@ -9,8 +9,10 @@ type BathroomPlannerState = {
     style: basicType | null;
     setStyle: (item: basicType) => void;
 
-    equipment: {} | null;
-    setEquipment: () => void;
+    equipment: { [id: string]: basicType } | null;
+    addEquipment: (item: basicType) => void;
+    removeEquipment: (item: basicType) => void;
+    clearEquipment: () => void;
 
     projectType: {} | null;
     setProjectType: () => void;
@@ -43,7 +45,16 @@ export const useBathroomPlannerStore = create<BathroomPlannerState>((set) => ({
     setStyle: (item: basicType) => set({ style: item }),
 
     equipment: null,
-    setEquipment: () => set({ equipment: {} }),
+    addEquipment: (item: basicType) =>
+        set((state) => ({
+            equipment: { ...state.equipment, [item.id]: item },
+        })),
+    removeEquipment: (item: basicType) => set((state) => {
+        const updated = { ...state.equipment };
+        delete updated[item.id];
+        return { equipment: updated };
+    }),
+    clearEquipment: () => set({ equipment: null }),
 
     projectType: null,
     setProjectType: () => set({ projectType: {} }),
