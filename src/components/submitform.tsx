@@ -1,0 +1,199 @@
+"use client";
+
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+
+
+const formSchema = z.object({
+    firstName: z.string().nonempty("Vorname darf nicht leer sein"),
+    lastName: z.string().nonempty("Nachname darf nicht leer sein"),
+    mail: z.email("Ungültige E-Mail Adresse"),
+    phone: z.string().nonempty("Telefonnummer darf nicht leer sein"),
+    address: z.string().nonempty("Adresse darf nicht leer sein"),
+    zip: z.string().nonempty("PLZ darf nicht leer sein"),
+    city: z.string().nonempty("Stadt darf nicht leer sein"),
+    country: z.string().nonempty("Land darf nicht leer sein"),
+    comment: z.string(),
+});
+
+export function SubmitForm() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      mail: "",
+      phone: "",
+      address: "",
+      zip: "",
+      city: "",
+      country: "",
+      comment: "",
+    },
+  });
+
+  function onSubmit(data: z.infer<typeof formSchema>) {
+    console.log("Form submitted:", data);
+  }
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="firstName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Vorname</FormLabel>
+              <FormControl>
+                <Input placeholder="Vorname" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nachname</FormLabel>
+              <FormControl>
+                <Input placeholder="Nachname" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="mail"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>E-Mail</FormLabel>
+              <FormControl>
+                <Input placeholder="E-Mail" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Telefonnummer</FormLabel>
+              <FormControl>
+                <Input placeholder="Telefonnummer" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="address"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Adresse</FormLabel>
+              <FormControl>
+                <Input placeholder="Adresse" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="zip"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>PLZ</FormLabel>
+              <FormControl>
+                <Input placeholder="PLZ" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="city"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Stadt</FormLabel>
+              <FormControl>
+                <Input placeholder="Stadt" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="firstName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Vorname</FormLabel>
+              <FormControl>
+                <Input placeholder="Vorname" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="country"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Land</FormLabel>
+              <FormControl>
+                <Input placeholder="Land" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="comment"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Bemerkungen</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Bemerkungen" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit">Submit</Button>
+      </form>
+    </Form>
+  );
+}

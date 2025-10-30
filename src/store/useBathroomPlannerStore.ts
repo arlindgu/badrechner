@@ -1,39 +1,45 @@
-import { basicType } from "@/types/content";
+import { ageType, equipmentType, hasElevatorType, locationType, projectType, qualityType, styleType } from "@/types/content";
 import { create } from "zustand";
+import { dimensionsType } from "@/types/content";
 
 type BathroomPlannerState = {
     step: number;
     incrementStep: () => void;
     decrementStep: () => void;
 
-    style: basicType | null;
-    setStyle: (item: basicType) => void;
+    style: styleType | null;
+    setStyle: (item: styleType) => void;
 
-    equipment: { [id: string]: basicType } | null;
-    addEquipment: (item: basicType) => void;
-    removeEquipment: (item: basicType) => void;
+    equipment: equipmentType[]; // Array, kein Objekt und kein null
+    addEquipment: (item: equipmentType) => void;
+    removeEquipment: (item: equipmentType) => void;
     clearEquipment: () => void;
 
-    projectType: {} | null;
-    setProjectType: () => void;
+    projectType: projectType | null;
+    setProjectType: (item: projectType) => void;
 
-    bathroomAge: {} | null;
-    setBathroomAge: () => void;
+    bathroomAge: ageType | null;
+    setBathroomAge: (item: ageType) => void;
+    resetBathroomAge: () => void;
 
-    dimensions: {width: number; length: number; height: number } | null;
-    setDimensions: () => void;
+    dimensions: dimensionsType | null;
+    setDimensions: (dimensions: Partial<dimensionsType>) => void;
 
-    qualityLevel: {} | null;
-    setQualityLevel: () => void;
+    qualityLevel: { item: qualityType } | null;
+    setQualityLevel: (item: qualityType) => void;
 
-    location: {} | null;
-    setLocation: () => void;
+    location: { item: locationType } | null;
+    setLocation: (item: locationType) => void;
 
-    hasElevator: boolean | null;
-    setHasElevator: () => void;
+    hasElevator: hasElevatorType | null;
+    setHasElevator: (hasElevator: hasElevatorType) => void;
+    resetHasElevator: () => void;
 
-    attachments: File[] | null;
-    setAttachments: () => void;
+    attachments: File[]; // direkt Array, kein null, macht das Leben leichter
+    setAttachments: (files: File[]) => void;
+    addAttachment: (file: File) => void;
+    removeAttachment: (fileName: string) => void;
+    clearAttachments: () => void;
 };
 
 export const useBathroomPlannerStore = create<BathroomPlannerState>((set) => ({
@@ -42,39 +48,50 @@ export const useBathroomPlannerStore = create<BathroomPlannerState>((set) => ({
     decrementStep: () => set((state) => ({ step: state.step - 1 })),
 
     style: null,
-    setStyle: (item: basicType) => set({ style: item }),
+    setStyle: (item) => set({ style: item }),
 
-    equipment: null,
-    addEquipment: (item: basicType) =>
+    equipment: [] as equipmentType[],
+    addEquipment: (item) =>
         set((state) => ({
-            equipment: { ...state.equipment, [item.id]: item },
+            equipment: [...state.equipment, item],
         })),
-    removeEquipment: (item: basicType) => set((state) => {
-        const updated = { ...state.equipment };
-        delete updated[item.id];
-        return { equipment: updated };
-    }),
-    clearEquipment: () => set({ equipment: null }),
+    removeEquipment: (item) =>
+        set((state) => ({
+            equipment: state.equipment.filter((eq) => eq.name !== item.name),
+        })),
+    clearEquipment: () => set({ equipment: [] }),
 
     projectType: null,
-    setProjectType: () => set({ projectType: {} }),
+    setProjectType: (item) => set({ projectType: item }),
 
     bathroomAge: null,
-    setBathroomAge: () => set({ bathroomAge: {} }),
+    setBathroomAge: (item) => set({ bathroomAge: item }),
+    resetBathroomAge: () => set({ bathroomAge: null }),
 
     dimensions: null,
-    setDimensions: () => set({ dimensions: null }),
+    setDimensions: (dimensions) =>
+        set((state) => ({
+            dimensions: { ...state.dimensions, ...dimensions },
+        })),
 
     qualityLevel: null,
-    setQualityLevel: () => set({ qualityLevel: {} }),
+    setQualityLevel: (item: qualityType) => set({ qualityLevel: { item } }),
 
     location: null,
-    setLocation: () => set({ location: {} }),
+    setLocation: (item: locationType) => set({ location: { item } }),
 
     hasElevator: null,
-    setHasElevator: () => set({ hasElevator: null }),
+    setHasElevator: (hasElevator: hasElevatorType) => set({ hasElevator }),
+    resetHasElevator: () => set({ hasElevator: null }),
 
-    attachments: null,
-    setAttachments: () => set({ attachments: null }),
+    attachments: [],
+    setAttachments: (files) => set({ attachments: files }),
+    addAttachment: (file) =>
+        set((state) => ({ attachments: [...state.attachments, file] })),
+    removeAttachment: (fileName) =>
+        set((state) => ({
+            attachments: state.attachments.filter((f) => f.name !== fileName),
+        })),
+    clearAttachments: () => set({ attachments: [] }),
 }));
 
