@@ -10,10 +10,11 @@ type BathroomPlannerState = {
     style: styleType | null;
     setStyle: (item: styleType) => void;
 
-    equipment: equipmentType[]; // Array, kein Objekt und kein null
+    equipment: equipmentType[];
     addEquipment: (item: equipmentType) => void;
     removeEquipment: (item: equipmentType) => void;
     clearEquipment: () => void;
+    resetVariants: () => void;
 
     projectType: projectType | null;
     setProjectType: (item: projectType) => void;
@@ -35,7 +36,7 @@ type BathroomPlannerState = {
     setHasElevator: (hasElevator: hasElevatorType) => void;
     resetHasElevator: () => void;
 
-    attachments: File[]; // direkt Array, kein null, macht das Leben leichter
+    attachments: File[];
     setAttachments: (files: File[]) => void;
     addAttachment: (file: File) => void;
     removeAttachment: (fileName: string) => void;
@@ -51,15 +52,34 @@ export const useBathroomPlannerStore = create<BathroomPlannerState>((set) => ({
     setStyle: (item) => set({ style: item }),
 
     equipment: [] as equipmentType[],
-    addEquipment: (item) =>
-        set((state) => ({
-            equipment: [...state.equipment, item],
-        })),
+    addEquipment: (item: equipmentType) =>
+        set((state) => {
+            const exists = state.equipment.find((eq) => eq.name === item.name);
+
+            // Wenn bereits drin → nur updaten (z. B. selectedVariant oder Preis)
+            if (exists) {
+                return {
+                    equipment: state.equipment.map((eq) =>
+                        eq.name === item.name ? { ...eq, ...item } : eq
+                    ),
+                };
+            }
+
+            // Neu hinzufügen
+            return { equipment: [...state.equipment, item] };
+        }),
     removeEquipment: (item) =>
         set((state) => ({
             equipment: state.equipment.filter((eq) => eq.name !== item.name),
         })),
     clearEquipment: () => set({ equipment: [] }),
+    resetVariants: () =>
+        set((state) => ({
+            equipment: state.equipment.map((eq) => ({
+                ...eq,
+                selectedVariant: null,
+            })),
+        })),
 
     projectType: null,
     setProjectType: (item) => set({ projectType: item }),

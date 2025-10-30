@@ -17,7 +17,9 @@ export type equipmentType = {
     image: string;
     imageAlt: string;
     measureUnit?: string;
-}
+    variant?: { variant: string, priceFactor: number }[];
+    selectedVariant?: { variant: string, priceFactor: number } | null;
+};
 
 export type projectType = {
     name: string;

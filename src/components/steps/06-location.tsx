@@ -79,7 +79,7 @@ export default function LocationStep() {
    <section className="my-12">
      <div className="px-4 container mx-auto">
        <h2 className="text-2xl col-span-full font-bold mb-6">
-         Was für ein Badprojekt planen Sie?
+         Wo befindet sich das Bad?
        </h2>
        <div className="flex flex-wrap gap-6 justify-center">
          {locationContent.map((item) => (
@@ -94,7 +94,7 @@ export default function LocationStep() {
              <CardHeader>
                <CardTitle>{item.name}</CardTitle>
              </CardHeader>
-             <CardContent className="bg-amber-200">
+             <CardContent >
                <p>Bild</p>
              </CardContent>
            </Card>
@@ -104,7 +104,7 @@ export default function LocationStep() {
          </pre>
        </div>
        <h2 className="text-2xl col-span-full font-bold mb-6">
-         Wie alt ist Ihr bestehenden Bad?
+          Gibt es einen Aufzug im Gebäude?
        </h2>
        {location?.item.needsElevator && (
          <div className="flex flex-wrap gap-6 justify-center">
@@ -120,7 +120,7 @@ export default function LocationStep() {
                <CardHeader>
                  <CardTitle>{item.name}</CardTitle>
                </CardHeader>
-               <CardContent className="bg-amber-200">
+               <CardContent >
                  <p>Bild</p>
                </CardContent>
              </Card>

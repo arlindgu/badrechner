@@ -1,104 +1,81 @@
+import { useState } from "react";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Label } from "../ui/label";
+import { Card, CardTitle, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
+import { clsx } from "clsx";
 import { useBathroomPlannerStore } from "@/store/useBathroomPlannerStore";
 import { equipmentType } from "@/types/content";
-import {
-  Card,
-  CardTitle,
-  CardHeader,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
-import { clsx } from "clsx";
+import { Button } from "../ui/button";
+import Image from "next/image";
 
 const EquipmentStepContent: equipmentType[] = [
   {
-    name: "Waschtisch mit Unterschrank Einfach",
+    name: "Waschtisch mit Unterschrank",
     price: 500,
-    image: "/styles/modern.jpg",
-    imageAlt: "Modern bathroom style",
-  },
-  {
-    name: "Waschtisch mit Unterschrank Doppelt",
-    price: 500,
-    image: "/styles/modern.jpg",
-    imageAlt: "Modern bathroom style",
+    image: "/equipment/waschtisch.png",
+    imageAlt: "Waschtisch mit Unterschrank",
+    variant: [{ variant: "Einfach", priceFactor: 1 }, { variant: "Doppelt", priceFactor: 1.2 }],
   },
   {
     name: "Armaturen",
     price: 300,
-    image: "/styles/classic.jpg",
-    imageAlt: "Classic bathroom style",
+    image: "/equipment/armaturen.png",
+    imageAlt: "Armaturen",
   },
   {
     name: "Spiegel / Spiegelschrank",
     price: 400,
-    image: "/styles/rustic.jpg",
-    imageAlt: "Rustic bathroom style",
+    image: "/equipment/spiegel.png",
+    imageAlt: "Spiegel / Spiegelschrank",
   },
   {
     name: "Wandbelag",
     price: 600,
-    image: "/styles/industrial.jpg",
-    imageAlt: "Industrial bathroom style",
+    image: "/equipment/wandbelag.png",
+    imageAlt: "Wandbelag",
   },
   {
     name: "Heizkörper",
     price: 350,
-    image: "/styles/industrial.jpg",
-    imageAlt: "Industrial bathroom style",
+    image: "/equipment/heizkoerper.png",
+    imageAlt: "Heizkörper",
   },
   {
-    name: "Badewanne Eingebaut",
+    name: "Badewanne",
     price: 800,
-    image: "/styles/industrial.jpg",
-    imageAlt: "Industrial bathroom style",
-  },
-  {
-    name: "Dusche Freistehend",
-    price: 700,
-    image: "/styles/industrial.jpg",
-    imageAlt: "Industrial bathroom style",
+    image: "/equipment/badewanne.png",
+    imageAlt: "Badewanne",
+    variant: [{ variant: "Eingebaut", priceFactor: 1 }, { variant: "Freistehend", priceFactor: 1.2 }],
   },
   {
     name: "Bodenbelag",
     price: 550,
-    image: "/styles/industrial.jpg",
-    imageAlt: "Industrial bathroom style",
+    image: "/equipment/bodenbelag.png",
+    imageAlt: "Bodenbelag",
   },
   {
     name: "Accessoires",
     price: 150,
-    image: "/styles/industrial.jpg",
-    imageAlt: "Industrial bathroom style",
+    image: "/equipment/accessoires.png",
+    imageAlt: "Accessoires",
   },
   {
-    name: "Dusche Normal",
+    name: "Dusche",
     price: 700,
-    image: "/styles/industrial.jpg",
-    imageAlt: "Industrial bathroom style",
+    image: "/equipment/dusche.png",
+    imageAlt: "Dusche",
+    variant: [
+      { variant: "Normal", priceFactor: 1 },
+      { variant: "Bodengleich", priceFactor: 1.2 },
+      { variant: "Bodengleich mit Glasswand", priceFactor: 1.5 },
+    ],
   },
   {
-    name: "Dusche Bodengleich",
-    price: 700,
-    image: "/styles/industrial.jpg",
-    imageAlt: "Industrial bathroom style",
-  },
-  {
-    name: "Dusche Bodengleich mit Glaswand",
-    price: 700,
-    image: "/styles/industrial.jpg",
-    imageAlt: "Industrial bathroom style",
-  },
-  {
-    name: "Standard-WC",
+    name: "WC",
     price: 400,
-    image: "/styles/industrial.jpg",
-    imageAlt: "Industrial bathroom style",
-  },
-  {
-    name: "Dusch-WC",
-    price: 600,
-    image: "/styles/industrial.jpg",
-    imageAlt: "Industrial bathroom style",
+    image: "/equipment/wc.png",
+    imageAlt: "WC",
+    variant: [{ variant: "Dusch-WC", priceFactor: 1.2 }, { variant: "Standard-WC", priceFactor: 1 }],
   },
 ];
 
@@ -108,12 +85,36 @@ export default function EquipmentStep() {
   const removeEquipment = useBathroomPlannerStore(
     (state) => state.removeEquipment
   );
+  const [selectedVariants, setSelectedVariants] = useState<{
+    [key: string]: string;
+  }>({});
+
+  function handleSelectVariant(name: string, variantName: string) {
+    setSelectedVariants((prev) => ({ ...prev, [name]: variantName }));
+
+    const item = EquipmentStepContent.find((eq) => eq.name === name);
+    if (!item || !item.variant) return;
+
+    // Gewählte Variante inklusive priceFactor holen
+    const selected = item.variant.find((v) => v.variant === variantName);
+    if (!selected) return;
+
+    // Im Store speichern, mit kompletter Variante
+    addEquipment({ ...item, selectedVariant: selected });
+  }
 
   function handleClick(item: equipmentType) {
     if (equipment.some((eq) => eq.name === item.name)) {
       removeEquipment(item);
     } else {
-      addEquipment(item);
+      const selected =
+        item.variant?.find((v) => v.variant === selectedVariants[item.name]) ||
+        null;
+
+      addEquipment({
+        ...item,
+        selectedVariant: selected,
+      });
     }
   }
 
@@ -127,9 +128,8 @@ export default function EquipmentStep() {
           {EquipmentStepContent.map((item) => (
             <Card
               key={item.name}
-              onClick={() => handleClick(item)}
               className={clsx(
-                "transition-all max-w-xs w-full",
+                "transition-all max-w-xs w-full cursor-pointer",
                 equipment.some((eq) => eq.name === item.name) &&
                   "outline-blue-400 outline-3"
               )}
@@ -137,15 +137,58 @@ export default function EquipmentStep() {
               <CardHeader>
                 <CardTitle>{item.name}</CardTitle>
               </CardHeader>
-              <CardContent className="bg-amber-200">
-                <p>Bild</p>
+              <CardContent>
+                <Image
+                  src={item.image}
+                  alt={item.imageAlt}
+                  width={400}
+                  height={192}
+                  className="h-48 object-cover mb-4 rounded"
+                />
+                {item.variant &&
+                  equipment.some((eq) => eq.name === item.name) && (
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <Label className="mb-2 block">Variante wählen:</Label>
+                      <RadioGroup
+                        value={
+                          selectedVariants[item.name] ||
+                          equipment.find((eq) => eq.name === item.name)
+                            ?.selectedVariant?.variant ||
+                          ""
+                        }
+                        onValueChange={(value) =>
+                          handleSelectVariant(item.name, value)
+                        }
+                        className="grid grid-cols-1 gap-2"
+                      >
+                        {item.variant.map((v) => (
+                          <div
+                            key={v.variant}
+                            className="flex items-center space-x-2"
+                          >
+                            <RadioGroupItem
+                              value={v.variant}
+                              id={`${item.name}-${v.variant}`}
+                            />
+                            <Label htmlFor={`${item.name}-${v.variant}`}>
+                              {v.variant}
+                            </Label>
+                          </div>
+                        ))}
+                      </RadioGroup>
+                    </div>
+                  )}
               </CardContent>
+              <CardFooter>
+                <Button onClick={() => handleClick(item)}>{equipment.some((eq) => eq.name === item.name) ? "Entfernen" : "Hinzufügen"}</Button>
+              </CardFooter>
             </Card>
           ))}
-          <pre className="w-full border-2 p-4">
-            {JSON.stringify({ equipment }, null, 2)}
-          </pre>
         </div>
+
+        <pre className="w-full border-2 p-4 mt-6">
+          {JSON.stringify({ equipment }, null, 2)}
+        </pre>
       </div>
     </section>
   );

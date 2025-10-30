@@ -71,7 +71,7 @@ export default function ProjectTypeStep() {
               <CardHeader>
                 <CardTitle>{item.name}</CardTitle>
               </CardHeader>
-              <CardContent className="bg-amber-200">
+              <CardContent >
                 <p>Bild</p>
               </CardContent>
             </Card>
@@ -83,7 +83,7 @@ export default function ProjectTypeStep() {
         <h2 className="text-2xl col-span-full font-bold mb-6">
           Wie alt ist Ihr bestehendes Bad?
         </h2>
-        {!projectType?.newBuild && (
+        {!projectType?.newBuild && projectType?.newBuild != null && (
           <div className="flex flex-wrap gap-6 justify-center">
             {bathroomAgeContent.map((item) => (
               <Card
@@ -98,7 +98,7 @@ export default function ProjectTypeStep() {
                 <CardHeader>
                   <CardTitle>{item.name}</CardTitle>
                 </CardHeader>
-                <CardContent className="bg-amber-200">
+                <CardContent >
                   <p>Bild</p>
                 </CardContent>
               </Card>
