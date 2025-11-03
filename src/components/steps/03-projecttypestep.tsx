@@ -8,6 +8,8 @@ import {
 import { clsx } from "clsx";
 import { useProjectTypeStore } from "@/stores/useProjectTypeStore";
 import { useBathroomAgeStore } from "@/stores/useBathroomAgeStore";
+import ButtonNavigator from "../navigator";
+import { useEffect } from "react";
 
 const projectTypeContent: projectType[] = [
   {
@@ -31,19 +33,24 @@ export default function ProjectTypeStep() {
     const resetBathroomAge = useBathroomAgeStore(
       (state) => state.resetBathroomAge
     );
+    const projectTypeCompleted = useProjectTypeStore(
+      (state) => state.projectTypeCompleted
+    );
 
-
-    function handleClickProjectType(item: projectType) {
-      setProjectType(item);
+    useEffect(() => {
       if (projectType?.newBuild === true) {
-        resetBathroomAge();
         setProjectTypeCompleted(true);
         setBathroomAgeCompleted(true);
+        resetBathroomAge();
       } else if (projectType?.newBuild === false) {
         setProjectTypeCompleted(true);
         setBathroomAgeCompleted(false);
       }
+    }, [projectType, setProjectTypeCompleted]);
 
+
+    function handleClickProjectType(item: projectType) {
+      setProjectType(item);
     }
 
   return (
@@ -65,15 +72,13 @@ export default function ProjectTypeStep() {
               <CardHeader>
                 <CardTitle>{item.name}</CardTitle>
               </CardHeader>
-              <CardContent >
+              <CardContent>
                 <p>Bild</p>
               </CardContent>
             </Card>
           ))}
-          <pre className="w-full border-2 p-4">
-            {JSON.stringify({ projectType }, null, 2)}
-          </pre>
         </div>
+        <ButtonNavigator isStepComplete={projectTypeCompleted} />
       </div>
     </section>
   );

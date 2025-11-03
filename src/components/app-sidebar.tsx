@@ -2,7 +2,6 @@
 
 import { Calendar, Check, Home, Inbox, Search, Settings } from "lucide-react";
 import { GFLogo } from "./svg/gflogo";
-import { useBathroomAgeStore } from "@/stores/useBathroomAgeStore";
 import { useEquipmentStore } from "@/stores/useEquipmentStore";
 import { useStyleStore } from "@/stores/useStyleStore";
 import { useProjectTypeStore } from "@/stores/useProjectTypeStore";
@@ -41,16 +40,11 @@ export function AppSidebar() {
   const locationCompleted = useLocationStore(
     (state) => state.locationCompleted
   );
-  const bathroomAgeCompleted = useBathroomAgeStore(
-    (state) => state.bathroomAgeCompleted
-  );
   const hasElevatorCompleted = useElevatorStore(
     (state) => state.hasElevatorCompleted
   );
 
-  const step = useStepStore((state) => state.step);
   const setStep = useStepStore((state) => state.setStep);
-  const projectType = useProjectTypeStore((state) => state.projectType);
 
   const items = [
     {
@@ -87,7 +81,7 @@ export function AppSidebar() {
       title: "Standort",
       step: 6,
       icon: Home,
-      completed: locationCompleted && hasElevatorCompleted,
+      completed: locationCompleted,
     },
     {
       title: "Kontaktdaten",
@@ -95,19 +89,7 @@ export function AppSidebar() {
       icon: Settings,
       completed: false,
     },
-    {
-      title: "Dev - Alle Daten",
-      step: 9,
-      icon: Inbox,
-      completed: false,
-    },
   ];
-
-
-
-function handleClick(step: number) {
-  setStep(step);
-}
 
   return (
     <Sidebar>
@@ -121,7 +103,7 @@ function handleClick(step: number) {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton onClick={() => handleClick(item.step)}>
+                  <SidebarMenuButton>
                       <item.icon />
                       <span>{item.title}</span>
                       {item.completed && <Check />}

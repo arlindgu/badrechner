@@ -51,34 +51,36 @@ export function SubmitForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="firstName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Vorname</FormLabel>
-              <FormControl>
-                <Input placeholder="Vorname" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-4xl mx-auto bg-card border rounded-lg p-6">
+        <div className="flex flex-row gap-4 justify-around">
+          <FormField
+            control={form.control}
+            name="firstName"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Vorname</FormLabel>
+                <FormControl>
+                  <Input placeholder="Vorname" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="lastName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nachname</FormLabel>
-              <FormControl>
-                <Input placeholder="Nachname" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Nachname</FormLabel>
+                <FormControl>
+                  <Input placeholder="Nachname" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}
@@ -122,47 +124,35 @@ export function SubmitForm() {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="zip"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>PLZ</FormLabel>
-              <FormControl>
-                <Input placeholder="PLZ" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="flex flex-row gap-4 justify-around">
+          <FormField
+            control={form.control}
+            name="zip"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>PLZ</FormLabel>
+                <FormControl>
+                  <Input placeholder="PLZ" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="city"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Stadt</FormLabel>
-              <FormControl>
-                <Input placeholder="Stadt" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="firstName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Vorname</FormLabel>
-              <FormControl>
-                <Input placeholder="Vorname" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="city"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Stadt</FormLabel>
+                <FormControl>
+                  <Input placeholder="Stadt" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}

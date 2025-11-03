@@ -12,6 +12,7 @@ import { styleType } from "@/types/content";
 import { clsx } from "clsx";
 import { useEffect } from "react";
 import { useStyleStore } from "@/stores/useStyleStore";
+import ButtonNavigator from "../navigator";
 
 const StyleStepContent: styleType[] = [
   {
@@ -87,9 +88,7 @@ export default function StyleStep() {
               </CardContent>
             </Card>
           ))}
-          <pre className="w-full border-2 p-4">
-            {JSON.stringify({ style }, null, 2)}
-          </pre>
+          <ButtonNavigator isStepComplete={styleCompleted} />
         </div>
       </div>
     </section>

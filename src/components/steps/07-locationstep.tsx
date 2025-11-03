@@ -1,14 +1,15 @@
-import { hasElevatorType, locationType } from "@/types/content";
+import { locationType } from "@/types/content";
 import {
   Card,
   CardTitle,
   CardHeader,
-  CardDescription,
   CardContent,
 } from "@/components/ui/card";
 import { clsx } from "clsx";
 import { useLocationStore } from "@/stores/useLocationStore";
 import { useElevatorStore } from "@/stores/useElevatorStore";
+import ButtonNavigator from "../navigator";
+import { useEffect } from "react";
 
 const locationContent: locationType[] = [
     {
@@ -43,40 +44,36 @@ const locationContent: locationType[] = [
     }
 ];
 
-const hasElevatorContent: hasElevatorType[] = [
-    {
-        name: "Kein Aufzug",
-        hasElevator: null,
-    },
-    {
-        name: "Mit Aufzug",
-        hasElevator: true
-    },
-];
-
-
 
 
 export default function LocationStep() {
+  const setHasElevatorCompleted = useElevatorStore(
+    (state) => state.setHasElevatorCompleted
+  );
     const location = useLocationStore((state) => state.location);
     const setLocation = useLocationStore((state) => state.setLocation);
+    const setLocationCompleted = useLocationStore((state) => state.setLocationCompleted);
+    const locationStepCompleted = useLocationStore(
+      (state) => state.locationCompleted
+    );
 
-    const hasElevator = useElevatorStore((state) => state.hasElevator);
-    const setHasElevator = useElevatorStore((state) => state.setHasElevator);
     const resetHasElevator = useElevatorStore(
       (state) => state.resetHasElevator
     );
 
   function handleClick(item: locationType) {
-    if (item.needsElevator === false) {
-        resetHasElevator();
-    }
     setLocation(item);
   }
 
-  function handleClickHasElevator(item: hasElevatorType) {
-    setHasElevator(item);
-  }
+    useEffect(() => {
+      if (location?.item.needsElevator === false) {
+        setLocationCompleted(true);
+        resetHasElevator();
+        setHasElevatorCompleted(true);
+      } else if (location?.item.needsElevator === true) {
+        setLocationCompleted(true);
+      }
+    }, [location, setLocationCompleted]);
 
  return (
    <section className="my-12">
@@ -97,42 +94,13 @@ export default function LocationStep() {
              <CardHeader>
                <CardTitle>{item.name}</CardTitle>
              </CardHeader>
-             <CardContent >
+             <CardContent>
                <p>Bild</p>
              </CardContent>
            </Card>
          ))}
-         <pre className="w-full border-2 p-4">
-           {JSON.stringify({ location }, null, 2)}
-         </pre>
+         <ButtonNavigator isStepComplete={locationStepCompleted} />
        </div>
-       <h2 className="text-2xl col-span-full font-bold mb-6">
-          Gibt es einen Aufzug im Gebäude?
-       </h2>
-       {location?.item.needsElevator && (
-         <div className="flex flex-wrap gap-6 justify-center">
-           {hasElevatorContent.map((item) => (
-             <Card
-               key={String(item.hasElevator)}
-               onClick={() => handleClickHasElevator(item)}
-               className={clsx(
-                 "transition-all max-w-xs w-full",
-                 hasElevator?.hasElevator === item.hasElevator && "outline-blue-400 outline-3"
-               )}
-             >
-               <CardHeader>
-                 <CardTitle>{item.name}</CardTitle>
-               </CardHeader>
-               <CardContent >
-                 <p>Bild</p>
-               </CardContent>
-             </Card>
-           ))}
-           <pre className="w-full border-2 p-4">
-             {JSON.stringify({ hasElevator }, null, 2)}
-           </pre>
-         </div>
-       )}
      </div>
    </section>
  );

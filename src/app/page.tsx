@@ -1,56 +1,60 @@
-"use client"
+"use client";
 
-import StyleStep from "@/components/steps/stylestep";
-import EquipmentStep from "@/components/steps/equipmentstep";
-import ProjectTypeStep from "@/components/steps/projecttypestep";
-import DimensionsStep from "@/components/steps/dimensionsstep";
-import QualityStep from "@/components/steps/qualitystep";
-import LocationStep from "@/components/steps/locationstep";
-import DevAllStep from "@/components/steps/08-dev-all";
-import FormStep from "@/components/steps/formstep";
-import { Button } from "@/components/ui/button";
+import StyleStep from "@/components/steps/01-stylestep";
+import EquipmentStep from "@/components/steps/02-equipmentstep";
+import ProjectTypeStep from "@/components/steps/03-projecttypestep";
+import BathroomAgeStep from "@/components/steps/04-bathroomagestep";
+import DimensionsStep from "@/components/steps/05-dimensionsstep";
+import QualityStep from "@/components/steps/06-qualitystep";
+import LocationStep from "@/components/steps/07-locationstep";
+import ElevatorStep from "@/components/steps/08-elevatorstep";
+import FormStep from "@/components/steps/09-form";
 import { useStepStore } from "@/stores/useStepStore";
 import { useProjectTypeStore } from "@/stores/useProjectTypeStore";
-import { useBathroomAgeStore } from "@/stores/useBathroomAgeStore";
-import BathroomAgeStep from "@/components/steps/bathroomagestep";
+import { useLocationStore } from "@/stores/useLocationStore";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
 export default function Home() {
   const step = useStepStore((state) => state.step);
-  const nextStep = useStepStore((state) => state.incrementStep);
-  const prevStep = useStepStore((state) => state.decrementStep);
+  const incrementStep = useStepStore((state) => state.incrementStep);
   const projectType = useProjectTypeStore((state) => state.projectType);
-  const setBathroomAgeCompleted = useBathroomAgeStore((state) => state.setBathroomAgeCompleted);
+  const location = useLocationStore((state) => state.location);
 
-
-  
+  const progressiveValue = (step / 8) * 100;
 
   return (
-      <section>
-        <div className="container px-4 mx-auto">
-          <div>
-            {step === 1 && <StyleStep />}
-            {step === 2 && <EquipmentStep />}
-            {step === 3 && <ProjectTypeStep />}
-            {step === 4 && projectType?.newBuild === false && <BathroomAgeStep />}
-            {step === 4 && projectType?.newBuild === true && <DimensionsStep />}
-            {step === 5 && <QualityStep />}
-            {step === 6 && <LocationStep />}
-            {step === 7 && <DevAllStep />}
-            {step === 8 && <FormStep />}
-          </div>
-          <div className="flex flex-row gap-4 mt-4">
-            {step > 0 && (
-              <Button onClick={prevStep} variant="secondary">
-                Back
-              </Button>
-            )}
-            {step < 7 && (
-              <Button onClick={nextStep} variant="default">
-                Next
-              </Button>
-            )}
-          </div>
+    <section className="h-full">
+      <div className="container mx-auto">
+        <Progress value={progressiveValue} className="my-8 h-4 rounded-full" />
+        <div className="h-full">
+          {step === 0 && (
+            <div className="h-full flex flex-col items-center justify-center gap-6">
+              <h1>Willkommen beim Baderechner</h1>
+              <p>Hier können Sie Ihr Traumbad planen und berechnen.</p>
+              <Button onClick={incrementStep}>Starten</Button>
+            </div>
+          )}
+          {step === 1 && <StyleStep />}
+          {step === 2 && <EquipmentStep />}
+          {step === 3 && <ProjectTypeStep />}
+          {step === 4 &&
+            (projectType?.newBuild === false ? (
+              <BathroomAgeStep />
+            ) : (
+              <DimensionsStep />
+            ))}
+          {step === 5 && <QualityStep />}
+          {step === 6 && <LocationStep />}
+          {step === 7 &&
+            (location?.item.needsElevator === true ? (
+              <ElevatorStep />
+            ) : (
+              <FormStep />
+            ))}
+          {step === 8 && <FormStep />}
         </div>
-      </section>
+      </div>
+    </section>
   );
 }

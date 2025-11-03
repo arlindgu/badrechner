@@ -1,6 +1,4 @@
-import { ageType, equipmentType, hasElevatorType, locationType, projectType, qualityType, styleType } from "@/types/content";
 import { create } from "zustand";
-import { dimensionsType } from "@/types/content";
 
 type StepStateType = {
     step: number;

@@ -15,7 +15,5 @@ export const useElevatorStore = create<ElevatorStateType>((set) => ({
     setHasElevator: (hasElevator: hasElevatorType) => set({ hasElevator }),
     resetHasElevator: () => set({ hasElevator: null }),
     hasElevatorCompleted: false,
-    setHasElevatorCompleted: (completed) => set((state) => ({
-        hasElevatorCompleted: completed && state.hasElevator !== null,
-    })),
+    setHasElevatorCompleted: (completed: boolean) => set({ hasElevatorCompleted: completed }),
 }));

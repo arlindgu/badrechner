@@ -1,13 +1,14 @@
-import { hasElevatorType, locationType } from "@/types/content";
+import { hasElevatorType } from "@/types/content";
 import {
   Card,
   CardTitle,
   CardHeader,
-  CardDescription,
   CardContent,
 } from "@/components/ui/card";
 import { clsx } from "clsx";
 import { useElevatorStore } from "@/stores/useElevatorStore";
+import { useEffect } from "react";
+import ButtonNavigator from "../navigator";
 
 const hasElevatorContent: hasElevatorType[] = [
   {
@@ -20,7 +21,7 @@ const hasElevatorContent: hasElevatorType[] = [
   },
 ];
 
-export default function LocationStep() {
+export default function ElevatorStep() {
   const hasElevator = useElevatorStore((state) => state.hasElevator);
   const setHasElevator = useElevatorStore((state) => state.setHasElevator);
   const setHasElevatorCompleted = useElevatorStore(
@@ -29,8 +30,13 @@ export default function LocationStep() {
 
   function handleClickHasElevator(item: hasElevatorType) {
     setHasElevator(item);
-    setHasElevatorCompleted(true);
   }
+
+  useEffect(() => {
+    if (hasElevator?.hasElevator !== undefined) {
+      setHasElevatorCompleted(true);
+    }
+  }, [hasElevator, setHasElevatorCompleted]);
 
   return (
     <section className="my-12">
@@ -57,10 +63,8 @@ export default function LocationStep() {
                 </CardContent>
               </Card>
             ))}
-            <pre className="w-full border-2 p-4">
-              {JSON.stringify({ hasElevator }, null, 2)}
-            </pre>
           </div>
+          <ButtonNavigator isStepComplete={hasElevator?.hasElevator !== undefined} />
       </div>
     </section>
   );

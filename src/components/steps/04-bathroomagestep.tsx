@@ -3,11 +3,12 @@ import {
   Card,
   CardTitle,
   CardHeader,
-  CardDescription,
   CardContent,
 } from "@/components/ui/card";
 import { clsx } from "clsx";
 import { useBathroomAgeStore } from "@/stores/useBathroomAgeStore";
+import ButtonNavigator from "../navigator";
+import { useEffect } from "react";
 
 const bathroomAgeContent: ageType[] = [
   {
@@ -21,19 +22,28 @@ const bathroomAgeContent: ageType[] = [
 ];
 
 export default function BathroomAgeStep() {
-
+  const bathroomAgeCompleted = useBathroomAgeStore(
+    (state) => state.bathroomAgeCompleted
+  );
   const bathroomAge = useBathroomAgeStore((state) => state.bathroomAge);
   const setBathroomAge = useBathroomAgeStore((state) => state.setBathroomAge);
-  const resetBathroomAge = useBathroomAgeStore(
-    (state) => state.resetBathroomAge
-  );
   const setBathroomAgeCompleted = useBathroomAgeStore(
     (state) => state.setBathroomAgeCompleted
   );
 
+      useEffect(() => {
+        if (bathroomAge) {
+          setBathroomAgeCompleted(true);
+        } else {
+          setBathroomAgeCompleted(false);
+        }
+      }, [bathroomAge, setBathroomAgeCompleted]);
+
   function handleClickAge(item: ageType) {
     setBathroomAge(item);
   }
+
+  
 
   return (
     <section className="my-12">
@@ -60,9 +70,7 @@ export default function BathroomAgeStep() {
                 </CardContent>
               </Card>
             ))}
-            <pre className="w-full border-2 p-4">
-              {JSON.stringify({ bathroomAge }, null, 2)}
-            </pre>
+            <ButtonNavigator isStepComplete={bathroomAgeCompleted} />
           </div>
       </div>
     </section>

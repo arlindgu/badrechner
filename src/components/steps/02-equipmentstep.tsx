@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Label } from "../ui/label";
 import { Card, CardTitle, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
@@ -7,6 +7,7 @@ import { equipmentType } from "@/types/content";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { useEquipmentStore } from "@/stores/useEquipmentStore";
+import ButtonNavigator from "../navigator";
 
 const EquipmentStepContent: equipmentType[] = [
   {
@@ -86,7 +87,12 @@ export default function EquipmentStep() {
   const [selectedVariants, setSelectedVariants] = useState<{
     [key: string]: string;
   }>({});
-  const setEquipmentCompleted = useEquipmentStore((state) => state.setEquipmentCompleted);
+  const setEquipmentCompleted = useEquipmentStore(
+    (state) => state.setEquipmentCompleted
+  );
+  const equipmentCompleted = useEquipmentStore(
+    (state) => state.equipmentCompleted
+  );
 
   function handleSelectVariant(name: string, variantName: string) {
     setSelectedVariants((prev) => ({ ...prev, [name]: variantName }));
@@ -108,8 +114,9 @@ export default function EquipmentStep() {
     } else {
       if (item.variant) {
         const selected =
-          item.variant?.find((v) => v.variant === selectedVariants[item.name]) ||
-          item.variant[0];
+          item.variant?.find(
+            (v) => v.variant === selectedVariants[item.name]
+          ) || item.variant[0];
 
         addEquipment({
           ...item,
@@ -121,12 +128,16 @@ export default function EquipmentStep() {
     }
   }
 
-  if (equipment.length > 0 && equipment.every((eq) => eq.selectedVariant !== null)) {
-    setEquipmentCompleted(true)
-  } else if (equipment.length === 0 || equipment === null) {
-    setEquipmentCompleted(false);
-  }
-
+  useEffect(() => {
+    if (
+      equipment.length > 0 &&
+      equipment.every((eq) => eq.selectedVariant !== null)
+    ) {
+      setEquipmentCompleted(true);
+    } else if (equipment.length === 0 || equipment === null) {
+      setEquipmentCompleted(false);
+    }
+  }, [equipment, setEquipmentCompleted]); // ✅ ADD dependencies
 
   return (
     <section className="my-12">
@@ -200,10 +211,7 @@ export default function EquipmentStep() {
             </Card>
           ))}
         </div>
-
-        <pre className="w-full border-2 p-4 mt-6">
-          {JSON.stringify({ equipment }, null, 2)}
-        </pre>
+        <ButtonNavigator isStepComplete={equipmentCompleted} />
       </div>
     </section>
   );

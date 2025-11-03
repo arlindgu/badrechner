@@ -2,6 +2,7 @@ import { useDimensionsStore } from "@/stores/useDimensionsStore";
 import { Input } from "../ui/input";
 import { Label } from "@radix-ui/react-label";
 import { useEffect } from "react";
+import ButtonNavigator from "../navigator";
 
 
 export default function DimensionsStep() {
@@ -10,6 +11,9 @@ export default function DimensionsStep() {
     const setDimensions = useDimensionsStore((state) => state.setDimensions);
     const setDimensionsCompleted = useDimensionsStore(
       (state) => state.setDimensionsCompleted
+    );
+    const dimensionsCompleted = useDimensionsStore(
+      (state) => state.dimensionsCompleted
     );
 
 
@@ -71,7 +75,7 @@ export default function DimensionsStep() {
             />
           </div>
         </div>
-        <pre className="w-full border-2 p-4 mt-4">{JSON.stringify({ dimensions }, null, 2)}</pre>
+        <ButtonNavigator isStepComplete={dimensionsCompleted} />
       </div>
     </section>
   );

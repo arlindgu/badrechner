@@ -10,6 +10,8 @@ import { clsx } from "clsx";
 import { useQualityLevelStore } from "@/stores/useQualityLevelStore";
 import { useEquipmentStore } from "@/stores/useEquipmentStore";
 import { set } from "zod";
+import { useEffect } from "react";
+import ButtonNavigator from "../navigator";
 
 const QualityStepContent: qualityType[] = [
   {
@@ -40,6 +42,9 @@ export default function QualityStep() {
     const setQuality = useQualityLevelStore((state) => state.setQualityLevel);
     const equipment = useEquipmentStore((state) => state.equipment);
     const setQualityCompleted = useQualityLevelStore((state) => state.setQualityLevelCompleted);
+    const qualityStepCompleted = useQualityLevelStore(
+      (state) => state.qualityLevelCompleted
+    );
 
     const baseSum = equipment.reduce((sum, eq) => sum + (eq.price ?? 0), 0);
 
@@ -52,9 +57,18 @@ export default function QualityStep() {
     QualityStepContent[2].minRange = baseSum * QualityStepContent[2].minPriceFactor;
     QualityStepContent[2].maxRange = baseSum * QualityStepContent[2].maxPriceFactor;
 
+    useEffect(() => {
+      if (quality) {
+        setQualityCompleted(true);
+      } else {
+        setQualityCompleted(false);
+      }
+    }, [quality, setQualityCompleted]);
+
+
   function handleClick(item: qualityType) {
     setQuality(item);
-    setQualityCompleted(true);
+    
   }
 
   return (
@@ -66,23 +80,25 @@ export default function QualityStep() {
         <div className="flex flex-wrap gap-6 mx-auto justify-center">
           {QualityStepContent.map((item) => (
             <Card
-                          key={item.level}
-                          onClick={() => handleClick(item)}
-                          className={clsx(
-                            "transition-all max-w-xs w-full",
-                            quality?.item.level === item.level && "outline-blue-400 outline-3"
-                          )}
-                        >
+              key={item.level}
+              onClick={() => handleClick(item)}
+              className={clsx(
+                "transition-all max-w-xs w-full",
+                quality?.item.level === item.level &&
+                  "outline-blue-400 outline-3"
+              )}
+            >
               <CardHeader>
                 <CardTitle>{item.level}</CardTitle>
-                <CardDescription>{item.minRange} - {item.maxRange}</CardDescription>
+                <CardDescription>
+                  {item.minRange} - {item.maxRange}
+                </CardDescription>
               </CardHeader>
-              <CardContent>
-              </CardContent>
+              <CardContent></CardContent>
             </Card>
           ))}
-          <pre className="w-full border-2 p-4">{JSON.stringify({ quality }, null, 2)}</pre>
         </div>
+        <ButtonNavigator isStepComplete={qualityStepCompleted} />
       </div>
     </section>
   );
