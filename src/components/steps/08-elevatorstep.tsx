@@ -9,19 +9,10 @@ import { clsx } from "clsx";
 import { useElevatorStore } from "@/stores/useElevatorStore";
 import { useEffect } from "react";
 import ButtonNavigator from "../navigator";
-
-const hasElevatorContent: hasElevatorType[] = [
-  {
-    name: "Kein Aufzug",
-    hasElevator: null,
-  },
-  {
-    name: "Mit Aufzug",
-    hasElevator: true,
-  },
-];
+import { elevatorOptions } from "@/content/elevator";
 
 export default function ElevatorStep() {
+  const hasElevatorContent = elevatorOptions;
   const hasElevator = useElevatorStore((state) => state.hasElevator);
   const setHasElevator = useElevatorStore((state) => state.setHasElevator);
   const setHasElevatorCompleted = useElevatorStore(

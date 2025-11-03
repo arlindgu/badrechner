@@ -10,20 +10,11 @@ import { useProjectTypeStore } from "@/stores/useProjectTypeStore";
 import { useBathroomAgeStore } from "@/stores/useBathroomAgeStore";
 import ButtonNavigator from "../navigator";
 import { useEffect } from "react";
-
-const projectTypeContent: projectType[] = [
-  {
-    name: "Neubau",
-    newBuild: true,
-  },
-  {
-    name: "Umbau",
-    newBuild: false,
-  },
-];
+import { projectOptions } from "@/content/project";
 
 export default function ProjectTypeStep() {
 
+  const projectTypeContent = projectOptions;
     const projectType = useProjectTypeStore((state) => state.projectType);
     const setProjectType = useProjectTypeStore((state) => state.setProjectType);
     const setProjectTypeCompleted = useProjectTypeStore((state) => state.setProjectTypeCompleted);

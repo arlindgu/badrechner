@@ -9,35 +9,13 @@ import {
 import { clsx } from "clsx";
 import { useQualityLevelStore } from "@/stores/useQualityLevelStore";
 import { useEquipmentStore } from "@/stores/useEquipmentStore";
-import { set } from "zod";
+
 import { useEffect } from "react";
 import ButtonNavigator from "../navigator";
-
-const QualityStepContent: qualityType[] = [
-  {
-    level: "Einfach",
-    minPriceFactor: 1.0,
-    maxPriceFactor: 1.2,
-    minRange: null,
-    maxRange: null,
-  },
-  {
-    level: "Mittel",
-    minPriceFactor: 1.3,
-    maxPriceFactor: 1.5,
-    minRange: null,
-    maxRange: null,
-  },
-  {
-    level: "Gehoben",
-    minPriceFactor: 1.6,
-    maxPriceFactor: 1.8,
-    minRange: null,
-    maxRange: null,
-  }
-];
+import { qualityOptions } from "@/content/quality";
 
 export default function QualityStep() {
+  const QualityStepContent = qualityOptions;
     const quality = useQualityLevelStore((state) => state.qualityLevel);
     const setQuality = useQualityLevelStore((state) => state.setQualityLevel);
     const equipment = useEquipmentStore((state) => state.equipment);

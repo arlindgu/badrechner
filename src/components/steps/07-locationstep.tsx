@@ -10,43 +10,13 @@ import { useLocationStore } from "@/stores/useLocationStore";
 import { useElevatorStore } from "@/stores/useElevatorStore";
 import ButtonNavigator from "../navigator";
 import { useEffect } from "react";
+import { locationOptions } from "@/content/location";
 
-const locationContent: locationType[] = [
-    {
-        needsElevator: true,
-        name: "UG",
-        priceFactor: 1,
-    },
-    {
-        needsElevator: false,
-        name: "EG",
-        priceFactor: 1.0,
-    },
-    {
-        needsElevator: true,
-        name: "1. OG",
-        priceFactor: 1.1,
-    },
-    {
-        needsElevator: true,
-        name: "2. OG",
-        priceFactor: 1.2,
-    },
-    {
-        needsElevator: true,
-        name: "+3. OG",
-        priceFactor: 1.3,
-    },
-    {
-        needsElevator: true,
-        name: "DG",
-        priceFactor: 1.4,
-    }
-];
 
 
 
 export default function LocationStep() {
+  const locationContent = locationOptions;
   const setHasElevatorCompleted = useElevatorStore(
     (state) => state.setHasElevatorCompleted
   );

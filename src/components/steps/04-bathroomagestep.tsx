@@ -9,19 +9,11 @@ import { clsx } from "clsx";
 import { useBathroomAgeStore } from "@/stores/useBathroomAgeStore";
 import ButtonNavigator from "../navigator";
 import { useEffect } from "react";
+import { bathroomAgeOptions } from "@/content/bathroomAge";
 
-const bathroomAgeContent: ageType[] = [
-  {
-    newerThan: true,
-    name: "1992 oder neuer",
-  },
-  {
-    newerThan: false,
-    name: "1991 oder älter",
-  },
-];
 
 export default function BathroomAgeStep() {
+  const bathroomAgeContent = bathroomAgeOptions;
   const bathroomAgeCompleted = useBathroomAgeStore(
     (state) => state.bathroomAgeCompleted
   );
