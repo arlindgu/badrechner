@@ -1,4 +1,3 @@
-import { useBathroomPlannerStore } from "@/store/useBathroomPlannerStore";
 import { qualityType } from "@/types/content";
 import {
   Card,
@@ -7,8 +6,10 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import Image from "next/image";
 import { clsx } from "clsx";
+import { useQualityLevelStore } from "@/stores/useQualityLevelStore";
+import { useEquipmentStore } from "@/stores/useEquipmentStore";
+import { set } from "zod";
 
 const QualityStepContent: qualityType[] = [
   {
@@ -35,9 +36,10 @@ const QualityStepContent: qualityType[] = [
 ];
 
 export default function QualityStep() {
-    const quality = useBathroomPlannerStore((state) => state.qualityLevel);
-    const setQuality = useBathroomPlannerStore((state) => state.setQualityLevel);
-    const equipment = useBathroomPlannerStore((state) => state.equipment);
+    const quality = useQualityLevelStore((state) => state.qualityLevel);
+    const setQuality = useQualityLevelStore((state) => state.setQualityLevel);
+    const equipment = useEquipmentStore((state) => state.equipment);
+    const setQualityCompleted = useQualityLevelStore((state) => state.setQualityLevelCompleted);
 
     const baseSum = equipment.reduce((sum, eq) => sum + (eq.price ?? 0), 0);
 
@@ -52,6 +54,7 @@ export default function QualityStep() {
 
   function handleClick(item: qualityType) {
     setQuality(item);
+    setQualityCompleted(true);
   }
 
   return (

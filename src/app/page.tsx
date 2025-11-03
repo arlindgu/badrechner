@@ -1,34 +1,42 @@
 "use client"
 
-import StyleStep from "@/components/steps/01-style";
-import EquipmentStep from "@/components/steps/02-equipment";
-import ProjectTypeStep from "@/components/steps/03-projecttype";
-import DimensionsStep from "@/components/steps/04-dimensions";
-import QualityStep from "@/components/steps/05-quality";
-import LocationStep from "@/components/steps/06-location";
+import StyleStep from "@/components/steps/stylestep";
+import EquipmentStep from "@/components/steps/equipmentstep";
+import ProjectTypeStep from "@/components/steps/projecttypestep";
+import DimensionsStep from "@/components/steps/dimensionsstep";
+import QualityStep from "@/components/steps/qualitystep";
+import LocationStep from "@/components/steps/locationstep";
 import DevAllStep from "@/components/steps/08-dev-all";
-import { SubmitForm } from "@/components/submitform";
+import FormStep from "@/components/steps/formstep";
 import { Button } from "@/components/ui/button";
-import { useBathroomPlannerStore } from "@/store/useBathroomPlannerStore";
+import { useStepStore } from "@/stores/useStepStore";
+import { useProjectTypeStore } from "@/stores/useProjectTypeStore";
+import { useBathroomAgeStore } from "@/stores/useBathroomAgeStore";
+import BathroomAgeStep from "@/components/steps/bathroomagestep";
 
 export default function Home() {
-  const step = useBathroomPlannerStore((state) => state.step);
-  const nextStep = useBathroomPlannerStore((state) => state.incrementStep);
-  const prevStep = useBathroomPlannerStore((state) => state.decrementStep);
+  const step = useStepStore((state) => state.step);
+  const nextStep = useStepStore((state) => state.incrementStep);
+  const prevStep = useStepStore((state) => state.decrementStep);
+  const projectType = useProjectTypeStore((state) => state.projectType);
+  const setBathroomAgeCompleted = useBathroomAgeStore((state) => state.setBathroomAgeCompleted);
+
+
+  
 
   return (
-    <main>
       <section>
         <div className="container px-4 mx-auto">
           <div>
             {step === 1 && <StyleStep />}
             {step === 2 && <EquipmentStep />}
             {step === 3 && <ProjectTypeStep />}
-            {step === 4 && <DimensionsStep />}
+            {step === 4 && projectType?.newBuild === false && <BathroomAgeStep />}
+            {step === 4 && projectType?.newBuild === true && <DimensionsStep />}
             {step === 5 && <QualityStep />}
             {step === 6 && <LocationStep />}
             {step === 7 && <DevAllStep />}
-            {step === 8 && <SubmitForm />}
+            {step === 8 && <FormStep />}
           </div>
           <div className="flex flex-row gap-4 mt-4">
             {step > 0 && (
@@ -44,6 +52,5 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </main>
   );
 }

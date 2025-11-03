@@ -1,13 +1,24 @@
-import { useBathroomPlannerStore } from "@/store/useBathroomPlannerStore";
+import { useDimensionsStore } from "@/stores/useDimensionsStore";
 import { Input } from "../ui/input";
 import { Label } from "@radix-ui/react-label";
+import { useEffect } from "react";
 
 
 export default function DimensionsStep() {
 
-    const dimensions = useBathroomPlannerStore((state) => state.dimensions);
-    const setDimensions = useBathroomPlannerStore((state) => state.setDimensions);
-  
+    const dimensions = useDimensionsStore((state) => state.dimensions);
+    const setDimensions = useDimensionsStore((state) => state.setDimensions);
+    const setDimensionsCompleted = useDimensionsStore(
+      (state) => state.setDimensionsCompleted
+    );
+
+
+    useEffect(() => {
+      const isComplete = dimensions?.width && dimensions?.length && dimensions?.height;
+      setDimensionsCompleted(!!isComplete);
+    }, [dimensions, setDimensionsCompleted]);
+
+
 
   return (
     <section className="my-12">

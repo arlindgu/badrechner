@@ -1,28 +1,35 @@
-import { useBathroomPlannerStore } from "@/store/useBathroomPlannerStore";
+
+import { useStyleStore } from "@/stores/useStyleStore";
 import { Button } from "../ui/button";
+import { useEquipmentStore } from "@/stores/useEquipmentStore";
+import { useProjectTypeStore } from "@/stores/useProjectTypeStore";
+import { useDimensionsStore } from "@/stores/useDimensionsStore";
+import { useQualityLevelStore } from "@/stores/useQualityLevelStore";
+import { useLocationStore } from "@/stores/useLocationStore";
+import { useElevatorStore } from "@/stores/useElevatorStore";
 
 export default function devAllStep() {
 
     const styles = JSON.parse(
-      JSON.stringify(useBathroomPlannerStore.getState().style)
+      JSON.stringify(useStyleStore.getState().style)
     );
     const equipment = JSON.parse(
-      JSON.stringify(useBathroomPlannerStore.getState().equipment)
+      JSON.stringify(useEquipmentStore.getState().equipment)
     );
     const projectType = JSON.parse(
-      JSON.stringify(useBathroomPlannerStore.getState().projectType)
+      JSON.stringify(useProjectTypeStore.getState().projectType)
     );
     const dimensions = JSON.parse(
-      JSON.stringify(useBathroomPlannerStore.getState().dimensions)
+      JSON.stringify(useDimensionsStore.getState().dimensions)
     );
     const qualityLevel = JSON.parse(
-      JSON.stringify(useBathroomPlannerStore.getState().qualityLevel)
+      JSON.stringify(useQualityLevelStore.getState().qualityLevel)
     );
     const location = JSON.parse(
-      JSON.stringify(useBathroomPlannerStore.getState().location)
+      JSON.stringify(useLocationStore.getState().location)
     );
     const hasElevator = JSON.parse(
-      JSON.stringify(useBathroomPlannerStore.getState().hasElevator)
+      JSON.stringify(useElevatorStore.getState().hasElevator)
     );
 
 

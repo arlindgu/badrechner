@@ -1,4 +1,3 @@
-import { useBathroomPlannerStore } from "@/store/useBathroomPlannerStore";
 import { hasElevatorType, locationType } from "@/types/content";
 import {
   Card,
@@ -8,6 +7,8 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { clsx } from "clsx";
+import { useLocationStore } from "@/stores/useLocationStore";
+import { useElevatorStore } from "@/stores/useElevatorStore";
 
 const locationContent: locationType[] = [
     {
@@ -57,12 +58,14 @@ const hasElevatorContent: hasElevatorType[] = [
 
 
 export default function LocationStep() {
-    const location = useBathroomPlannerStore((state) => state.location);
-    const setLocation = useBathroomPlannerStore((state) => state.setLocation);
+    const location = useLocationStore((state) => state.location);
+    const setLocation = useLocationStore((state) => state.setLocation);
 
-    const hasElevator = useBathroomPlannerStore((state) => state.hasElevator);
-    const setHasElevator = useBathroomPlannerStore((state) => state.setHasElevator);
-    const resetHasElevator = useBathroomPlannerStore((state) => state.resetHasElevator);
+    const hasElevator = useElevatorStore((state) => state.hasElevator);
+    const setHasElevator = useElevatorStore((state) => state.setHasElevator);
+    const resetHasElevator = useElevatorStore(
+      (state) => state.resetHasElevator
+    );
 
   function handleClick(item: locationType) {
     if (item.needsElevator === false) {

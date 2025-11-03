@@ -3,10 +3,10 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Label } from "../ui/label";
 import { Card, CardTitle, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { clsx } from "clsx";
-import { useBathroomPlannerStore } from "@/store/useBathroomPlannerStore";
 import { equipmentType } from "@/types/content";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import { useEquipmentStore } from "@/stores/useEquipmentStore";
 
 const EquipmentStepContent: equipmentType[] = [
   {
@@ -80,14 +80,13 @@ const EquipmentStepContent: equipmentType[] = [
 ];
 
 export default function EquipmentStep() {
-  const equipment = useBathroomPlannerStore((state) => state.equipment);
-  const addEquipment = useBathroomPlannerStore((state) => state.addEquipment);
-  const removeEquipment = useBathroomPlannerStore(
-    (state) => state.removeEquipment
-  );
+  const equipment = useEquipmentStore((state) => state.equipment);
+  const addEquipment = useEquipmentStore((state) => state.addEquipment);
+  const removeEquipment = useEquipmentStore((state) => state.removeEquipment);
   const [selectedVariants, setSelectedVariants] = useState<{
     [key: string]: string;
   }>({});
+  const setEquipmentCompleted = useEquipmentStore((state) => state.setEquipmentCompleted);
 
   function handleSelectVariant(name: string, variantName: string) {
     setSelectedVariants((prev) => ({ ...prev, [name]: variantName }));
@@ -107,16 +106,27 @@ export default function EquipmentStep() {
     if (equipment.some((eq) => eq.name === item.name)) {
       removeEquipment(item);
     } else {
-      const selected =
-        item.variant?.find((v) => v.variant === selectedVariants[item.name]) ||
-        null;
+      if (item.variant) {
+        const selected =
+          item.variant?.find((v) => v.variant === selectedVariants[item.name]) ||
+          item.variant[0];
 
-      addEquipment({
-        ...item,
-        selectedVariant: selected,
-      });
+        addEquipment({
+          ...item,
+          selectedVariant: selected,
+        });
+      } else {
+        addEquipment(item);
+      }
     }
   }
+
+  if (equipment.length > 0 && equipment.every((eq) => eq.selectedVariant !== null)) {
+    setEquipmentCompleted(true)
+  } else if (equipment.length === 0 || equipment === null) {
+    setEquipmentCompleted(false);
+  }
+
 
   return (
     <section className="my-12">
@@ -150,6 +160,7 @@ export default function EquipmentStep() {
                     <div onClick={(e) => e.stopPropagation()}>
                       <Label className="mb-2 block">Variante wählen:</Label>
                       <RadioGroup
+                        defaultValue={item.variant[0].variant}
                         value={
                           selectedVariants[item.name] ||
                           equipment.find((eq) => eq.name === item.name)
@@ -180,7 +191,11 @@ export default function EquipmentStep() {
                   )}
               </CardContent>
               <CardFooter>
-                <Button onClick={() => handleClick(item)}>{equipment.some((eq) => eq.name === item.name) ? "Entfernen" : "Hinzufügen"}</Button>
+                <Button onClick={() => handleClick(item)}>
+                  {equipment.some((eq) => eq.name === item.name)
+                    ? "Entfernen"
+                    : "Hinzufügen"}
+                </Button>
               </CardFooter>
             </Card>
           ))}

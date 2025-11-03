@@ -24,6 +24,8 @@ export type equipmentType = {
 export type projectType = {
     name: string;
     newBuild: boolean;
+    needsBathroomAge?: boolean;
+    bathroomAgeOptions?: ageType[];
 }
 
 export type ageType = {

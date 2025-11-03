@@ -1,4 +1,5 @@
-import { useBathroomPlannerStore } from "@/store/useBathroomPlannerStore";
+"use client";
+
 import {
   Card,
   CardTitle,
@@ -9,6 +10,8 @@ import {
 import Image from "next/image";
 import { styleType } from "@/types/content";
 import { clsx } from "clsx";
+import { useEffect } from "react";
+import { useStyleStore } from "@/stores/useStyleStore";
 
 const StyleStepContent: styleType[] = [
   {
@@ -38,12 +41,20 @@ const StyleStepContent: styleType[] = [
 ];
 
 export default function StyleStep() {
-  const style = useBathroomPlannerStore((state) => state.style);
-  const setStyle = useBathroomPlannerStore((state) => state.setStyle);
+  const style = useStyleStore((state) => state.style);
+  const setStyle = useStyleStore((state) => state.setStyle);
+  const styleCompleted = useStyleStore((state) => state.styleCompleted);
+  const setStyleCompleted = useStyleStore((state) => state.setStyleCompleted);
 
   function handleClick(item: styleType) {
     setStyle(item);
   }
+
+  useEffect(() => {
+    if (style) {
+      setStyleCompleted(true);
+    }
+  }, [style, setStyleCompleted]);
 
   return (
     <section className="my-12">
