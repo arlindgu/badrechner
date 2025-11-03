@@ -11,7 +11,7 @@ export default function ButtonNavigator( { isStepComplete }: { isStepComplete: b
 
 
     return (
-      <div className="flex flex-row gap-4 mt-4">
+      <div className="flex flex-row gap-4 mt-8 justify-center">
         {currentStep > 0 && (
           <Button onClick={decrementStep} variant="secondary">
             Back
@@ -21,7 +21,6 @@ export default function ButtonNavigator( { isStepComplete }: { isStepComplete: b
           <Button
             onClick={incrementStep}
             disabled={!isStepComplete}
-            className="disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Weiter
           </Button>

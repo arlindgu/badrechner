@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Label } from "../ui/label";
-import { Card, CardTitle, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardTitle, CardHeader, CardContent, CardFooter, CardAction } from "@/components/ui/card";
 import { clsx } from "clsx";
 import { equipmentType } from "@/types/content";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { useEquipmentStore } from "@/stores/useEquipmentStore";
 import ButtonNavigator from "../navigator";
+import { Minus, Plus } from "lucide-react";
 
 const EquipmentStepContent: equipmentType[] = [
   {
@@ -145,68 +146,71 @@ export default function EquipmentStep() {
         <h2 className="text-2xl col-span-full font-bold mb-6">
           Wählen Sie ihre Austattung
         </h2>
-        <div className="flex flex-wrap gap-6 justify-center">
+        <div className="flex flex-col lg:grid lg:grid-cols-5 gap-6 justify-center">
           {EquipmentStepContent.map((item) => (
             <Card
               key={item.name}
               className={clsx(
-                "transition-all max-w-xs w-full cursor-pointer",
-                equipment.some((eq) => eq.name === item.name) &&
-                  "outline-blue-400 outline-3"
+          "transition-all",
+          equipment.some((eq) => eq.name === item.name) &&
+            "outline-blue-400 outline-3"
               )}
             >
               <CardHeader>
-                <CardTitle>{item.name}</CardTitle>
+          <CardTitle>{item.name}</CardTitle>
+          <CardAction>
+            <Button size="icon" variant="ghost" onClick={() => handleClick(item)}>
+            {equipment.some((eq) => eq.name === item.name)
+              ? <Minus />
+              : <Plus />}
+          </Button>
+          </CardAction>
               </CardHeader>
               <CardContent>
-                <Image
-                  src={item.image}
-                  alt={item.imageAlt}
-                  width={400}
-                  height={192}
-                  className="h-48 object-cover mb-4 rounded"
+          <div className="w-full h-24 relative">
+            <Image
+              src={item.image}
+              alt={item.imageAlt}
+              fill
+              className="object-cover mb-4 rounded"
+            />
+          </div>
+          {item.variant &&
+            equipment.some((eq) => eq.name === item.name) && (
+              <div onClick={(e) => e.stopPropagation()}>
+                <Label className="mt-6 mb-4 block">Variante wählen:</Label>
+                <RadioGroup
+            defaultValue={item.variant[0].variant}
+            value={
+              selectedVariants[item.name] ||
+              equipment.find((eq) => eq.name === item.name)
+                ?.selectedVariant?.variant ||
+              ""
+            }
+            onValueChange={(value) =>
+              handleSelectVariant(item.name, value)
+            }
+            className="grid grid-cols-1 gap-2"
+                >
+            {item.variant.map((v) => (
+              <div
+                key={v.variant}
+                className="flex items-center space-x-2"
+              >
+                <RadioGroupItem
+                  value={v.variant}
+                  id={`${item.name}-${v.variant}`}
                 />
-                {item.variant &&
-                  equipment.some((eq) => eq.name === item.name) && (
-                    <div onClick={(e) => e.stopPropagation()}>
-                      <Label className="mb-2 block">Variante wählen:</Label>
-                      <RadioGroup
-                        defaultValue={item.variant[0].variant}
-                        value={
-                          selectedVariants[item.name] ||
-                          equipment.find((eq) => eq.name === item.name)
-                            ?.selectedVariant?.variant ||
-                          ""
-                        }
-                        onValueChange={(value) =>
-                          handleSelectVariant(item.name, value)
-                        }
-                        className="grid grid-cols-1 gap-2"
-                      >
-                        {item.variant.map((v) => (
-                          <div
-                            key={v.variant}
-                            className="flex items-center space-x-2"
-                          >
-                            <RadioGroupItem
-                              value={v.variant}
-                              id={`${item.name}-${v.variant}`}
-                            />
-                            <Label htmlFor={`${item.name}-${v.variant}`}>
-                              {v.variant}
-                            </Label>
-                          </div>
-                        ))}
-                      </RadioGroup>
-                    </div>
-                  )}
+                <Label htmlFor={`${item.name}-${v.variant}`}>
+                  {v.variant}
+                </Label>
+              </div>
+            ))}
+                </RadioGroup>
+              </div>
+            )}
               </CardContent>
               <CardFooter>
-                <Button onClick={() => handleClick(item)}>
-                  {equipment.some((eq) => eq.name === item.name)
-                    ? "Entfernen"
-                    : "Hinzufügen"}
-                </Button>
               </CardFooter>
             </Card>
           ))}

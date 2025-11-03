@@ -24,10 +24,10 @@ export default function Home() {
   const progressiveValue = (step / 8) * 100;
 
   return (
-    <section className="h-full">
+    <section>
       <div className="container mx-auto">
-        <Progress value={progressiveValue} className="my-8 h-4 rounded-full" />
-        <div className="h-full">
+        <Progress value={progressiveValue} />
+        <div>
           {step === 0 && (
             <div className="h-full flex flex-col items-center justify-center gap-6">
               <h1>Willkommen beim Baderechner</h1>

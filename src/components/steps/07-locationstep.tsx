@@ -99,8 +99,8 @@ export default function LocationStep() {
              </CardContent>
            </Card>
          ))}
-         <ButtonNavigator isStepComplete={locationStepCompleted} />
        </div>
+       <ButtonNavigator isStepComplete={locationStepCompleted} />
      </div>
    </section>
  );

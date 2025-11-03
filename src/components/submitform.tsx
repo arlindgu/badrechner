@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useStepStore } from "@/stores/useStepStore";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -30,6 +31,7 @@ const formSchema = z.object({
 });
 
 export function SubmitForm() {
+  const decrementStep = useStepStore((state) => state.decrementStep);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -51,7 +53,10 @@ export function SubmitForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-4xl mx-auto bg-card border rounded-lg p-6">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 max-w-4xl mx-auto bg-card border rounded-lg p-6"
+      >
         <div className="flex flex-row gap-4 justify-around">
           <FormField
             control={form.control}
@@ -183,6 +188,7 @@ export function SubmitForm() {
         />
 
         <Button type="submit">Submit</Button>
+        <Button onClick={decrementStep}>Zurück</Button>
       </form>
     </Form>
   );
