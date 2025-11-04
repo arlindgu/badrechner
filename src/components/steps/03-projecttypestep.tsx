@@ -3,7 +3,6 @@ import {
   Card,
   CardTitle,
   CardHeader,
-  CardContent,
 } from "@/components/ui/card";
 import { clsx } from "clsx";
 import { useProjectTypeStore } from "@/stores/useProjectTypeStore";
@@ -30,9 +29,10 @@ export default function ProjectTypeStep() {
 
     useEffect(() => {
       if (projectType?.newBuild === true) {
+        console.log("New Build selected - resetting bathroom age step");
+        resetBathroomAge();
         setProjectTypeCompleted(true);
         setBathroomAgeCompleted(true);
-        resetBathroomAge();
       } else if (projectType?.newBuild === false) {
         setProjectTypeCompleted(true);
         setBathroomAgeCompleted(false);
@@ -47,7 +47,7 @@ export default function ProjectTypeStep() {
   return (
     <section className="my-12">
       <div className="px-4 container mx-auto">
-        <h2 className="text-2xl col-span-full font-bold mb-6">
+        <h2 className="text-2xl col-span-full font-bold mb-6 text-center">
           Was für ein Badprojekt planen Sie?
         </h2>
         <div className="flex flex-wrap gap-6 justify-center">
@@ -63,9 +63,6 @@ export default function ProjectTypeStep() {
               <CardHeader>
                 <CardTitle>{item.name}</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p>Bild</p>
-              </CardContent>
             </Card>
           ))}
         </div>

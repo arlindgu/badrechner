@@ -32,30 +32,29 @@ export default function ElevatorStep() {
   return (
     <section className="my-12">
       <div className="px-4 container mx-auto">
-        <h2 className="text-2xl col-span-full font-bold mb-6">
+        <h2 className="text-2xl col-span-full font-bold mb-6 text-center">
           Gibt es einen Aufzug im Gebäude?
         </h2>
-          <div className="flex flex-wrap gap-6 justify-center">
-            {hasElevatorContent.map((item) => (
-              <Card
-                key={String(item.hasElevator)}
-                onClick={() => handleClickHasElevator(item)}
-                className={clsx(
-                  "transition-all max-w-xs w-full",
-                  hasElevator?.hasElevator === item.hasElevator &&
-                    "outline-blue-400 outline-3"
-                )}
-              >
-                <CardHeader>
-                  <CardTitle>{item.name}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p>Bild</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          <ButtonNavigator isStepComplete={hasElevator?.hasElevator !== undefined} />
+        <div className="flex flex-wrap gap-6 justify-center">
+          {hasElevatorContent.map((item) => (
+            <Card
+              key={String(item.hasElevator)}
+              onClick={() => handleClickHasElevator(item)}
+              className={clsx(
+                "transition-all max-w-xs w-full",
+                hasElevator?.hasElevator === item.hasElevator &&
+                  "outline-blue-400 outline-3"
+              )}
+            >
+              <CardHeader>
+                <CardTitle>{item.name}</CardTitle>
+              </CardHeader>
+            </Card>
+          ))}
+        </div>
+        <ButtonNavigator
+          isStepComplete={hasElevator?.hasElevator !== undefined}
+        />
       </div>
     </section>
   );

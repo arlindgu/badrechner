@@ -36,7 +36,7 @@ export default function StyleStep() {
   return (
     <section className="my-12">
       <div className="container px-4 mx-auto">
-        <h2 className="text-2xl col-span-full font-bold mb-6">
+        <h2 className="text-2xl col-span-full font-bold mb-6 text-center">
           Wählen Sie ihren bevorzugten Stil
         </h2>
         <div className="flex flex-wrap gap-6 mx-auto justify-center">

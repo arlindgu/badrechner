@@ -22,6 +22,8 @@ import { useStepStore } from "@/stores/useStepStore";
 import { useDimensionsStore } from "@/stores/useDimensionsStore";
 import { useQualityLevelStore } from "@/stores/useQualityLevelStore";
 import { useLocationStore } from "@/stores/useLocationStore";
+import { bathroomAgeOptions } from "@/content/bathroomAge";
+import { useBathroomAgeStore } from "@/stores/useBathroomAgeStore";
 
 export function AppSidebar() {
   const styleCompleted = useStyleStore((state) => state.styleCompleted);
@@ -43,8 +45,9 @@ export function AppSidebar() {
   const hasElevatorCompleted = useElevatorStore(
     (state) => state.hasElevatorCompleted
   );
-
-  const setStep = useStepStore((state) => state.setStep);
+  const bathroomAgeCompleted = useBathroomAgeStore(
+    (state) => state.bathroomAgeCompleted
+  );
 
   const items = [
     {
@@ -63,10 +66,10 @@ export function AppSidebar() {
       title: "Projekt Typ",
       step: 3,
       icon: Calendar,
-      completed: projectTypeCompleted,
+      completed: projectTypeCompleted && bathroomAgeCompleted,
     },
     {
-      title: "Badezimmer Maße",
+      title: "Badezimmer Masse",
       step: 4,
       icon: Settings,
       completed: dimensionsCompleted,
@@ -81,7 +84,7 @@ export function AppSidebar() {
       title: "Standort",
       step: 6,
       icon: Home,
-      completed: locationCompleted,
+      completed: locationCompleted && hasElevatorCompleted,
     },
     {
       title: "Kontaktdaten",

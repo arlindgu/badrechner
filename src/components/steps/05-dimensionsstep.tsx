@@ -27,7 +27,7 @@ export default function DimensionsStep() {
   return (
     <section className="my-12">
       <div className="px-4 container mx-auto">
-        <h2 className="text-2xl col-span-full font-bold mb-6">
+        <h2 className="text-2xl col-span-full font-bold mb-6 text-center">
           Was für ein Badprojekt planen Sie?
         </h2>
         <div className="flex gap-6 justify-center">

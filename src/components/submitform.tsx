@@ -16,6 +16,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useStyleStore } from "@/stores/useStyleStore";
+import { useEquipmentStore } from "@/stores/useEquipmentStore";
+import { useProjectTypeStore } from "@/stores/useProjectTypeStore";
+import { useBathroomAgeStore } from "@/stores/useBathroomAgeStore";
+import DimensionsStep from "./steps/05-dimensionsstep";
+import { useDimensionsStore } from "@/stores/useDimensionsStore";
+import { useQualityLevelStore } from "@/stores/useQualityLevelStore";
+import { useLocationStore } from "@/stores/useLocationStore";
+import { useElevatorStore } from "@/stores/useElevatorStore";
 
 
 const formSchema = z.object({
@@ -31,6 +40,32 @@ const formSchema = z.object({
 });
 
 export function SubmitForm() {
+
+  const styleCompleted = useStyleStore((state) => state.styleCompleted);
+  const equipmentCompleted = useEquipmentStore((state) => state.equipmentCompleted);
+  const projectTypeCompleted = useProjectTypeStore((state) => state.projectTypeCompleted);
+  const bathroomAgeCompleted = useBathroomAgeStore((state) => state.bathroomAgeCompleted);
+  const dimensionsCompleted = useDimensionsStore((state) => state.dimensionsCompleted);
+  const qualityLevelCompleted = useQualityLevelStore((state) => state.qualityLevelCompleted);
+  const locationCompleted = useLocationStore((state) => state.locationCompleted);
+  const elevatorCompleted = useElevatorStore((state) => state.hasElevatorCompleted);
+
+  function activateButton() {
+    return styleCompleted && equipmentCompleted && projectTypeCompleted && bathroomAgeCompleted && dimensionsCompleted && qualityLevelCompleted && locationCompleted && elevatorCompleted;
+  }
+  
+  function handleTestClick() {
+    console.log("Style Completed:", styleCompleted);
+    console.log("Equipment Completed:", equipmentCompleted);
+    console.log("Project Type Completed:", projectTypeCompleted);
+    console.log("Bathroom Age Completed:", bathroomAgeCompleted);
+    console.log("Dimensions Completed:", dimensionsCompleted);
+    console.log("Quality Level Completed:", qualityLevelCompleted);
+    console.log("Location Completed:", locationCompleted);
+    console.log("Elevator Completed:", elevatorCompleted);
+  }
+
+
   const decrementStep = useStepStore((state) => state.decrementStep);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,7 +90,7 @@ export function SubmitForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 max-w-4xl mx-auto bg-card border rounded-lg p-6"
+        className="space-y-4 max-w-3xl mx-auto bg-card border rounded-lg p-6"
       >
         <div className="flex flex-row gap-4 justify-around">
           <FormField
@@ -186,9 +221,11 @@ export function SubmitForm() {
             </FormItem>
           )}
         />
-
-        <Button type="submit">Submit</Button>
-        <Button onClick={decrementStep}>Zurück</Button>
+        <div className="space-x-4">
+          <Button variant="secondary" onClick={decrementStep}>Zurück</Button>
+          <Button disabled={!activateButton()} type="submit">Submit</Button>
+          
+        </div>
       </form>
     </Form>
   );

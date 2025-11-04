@@ -74,7 +74,7 @@ export default function EquipmentStep() {
   return (
     <section className="my-12">
       <div className="px-4 container mx-auto">
-        <h2 className="text-2xl col-span-full font-bold mb-6">
+        <h2 className="text-2xl col-span-full font-bold mb-6 text-center">
           Wählen Sie ihre Austattung
         </h2>
         <div className="flex flex-col lg:grid lg:grid-cols-5 gap-6 justify-center">
@@ -82,67 +82,75 @@ export default function EquipmentStep() {
             <Card
               key={item.name}
               className={clsx(
-          "transition-all",
-          equipment.some((eq) => eq.name === item.name) &&
-            "outline-blue-400 outline-3"
+                "transition-all",
+                equipment.some((eq) => eq.name === item.name) &&
+                  "outline-blue-400 outline-3"
               )}
             >
               <CardHeader>
-          <CardTitle>{item.name}</CardTitle>
-          <CardAction>
-            <Button size="icon" variant="ghost" onClick={() => handleClick(item)}>
-            {equipment.some((eq) => eq.name === item.name)
-              ? <Minus />
-              : <Plus />}
-          </Button>
-          </CardAction>
+                <CardTitle>{item.name}</CardTitle>
+                <CardAction>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    onClick={() => handleClick(item)}
+                    className="hover:cursor-pointer"
+                  >
+                    {equipment.some((eq) => eq.name === item.name) ? (
+                      <Minus />
+                    ) : (
+                      <Plus />
+                    )}
+                  </Button>
+                </CardAction>
               </CardHeader>
               <CardContent>
-          <div className="w-full h-24 relative">
-            <Image
-              src={item.image}
-              alt={item.imageAlt}
-              fill
-              className="object-cover mb-4 rounded"
-            />
-          </div>
-          {item.variant &&
-            equipment.some((eq) => eq.name === item.name) && (
-              <div onClick={(e) => e.stopPropagation()}>
-                <Label className="mt-6 mb-4 block">Variante wählen:</Label>
-                <RadioGroup
-            defaultValue={item.variant[0].variant}
-            value={
-              selectedVariants[item.name] ||
-              equipment.find((eq) => eq.name === item.name)
-                ?.selectedVariant?.variant ||
-              ""
-            }
-            onValueChange={(value) =>
-              handleSelectVariant(item.name, value)
-            }
-            className="grid grid-cols-1 gap-2"
-                >
-            {item.variant.map((v) => (
-              <div
-                key={v.variant}
-                className="flex items-center space-x-2"
-              >
-                <RadioGroupItem
-                  value={v.variant}
-                  id={`${item.name}-${v.variant}`}
-                />
-                <Label htmlFor={`${item.name}-${v.variant}`}>
-                  {v.variant}
-                </Label>
-              </div>
-            ))}
-                </RadioGroup>
-              </div>
-            )}
+                <div className="w-full h-24 relative">
+                  <Image
+                    src={item.image}
+                    alt={item.imageAlt}
+                    fill
+                    className="object-cover mb-4 rounded"
+                  />
+                </div>
+                {item.variant &&
+                  equipment.some((eq) => eq.name === item.name) && (
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <Label className="mt-6 mb-4 block">
+                        Variante wählen:
+                      </Label>
+                      <RadioGroup
+                        defaultValue={item.variant[0].variant}
+                        value={
+                          selectedVariants[item.name] ||
+                          equipment.find((eq) => eq.name === item.name)
+                            ?.selectedVariant?.variant ||
+                          ""
+                        }
+                        onValueChange={(value) =>
+                          handleSelectVariant(item.name, value)
+                        }
+                        className="grid grid-cols-1 gap-2"
+                      >
+                        {item.variant.map((v) => (
+                          <div
+                            key={v.variant}
+                            className="flex items-center space-x-2"
+                          >
+                            <RadioGroupItem
+                              value={v.variant}
+                              id={`${item.name}-${v.variant}`}
+                            />
+                            <Label htmlFor={`${item.name}-${v.variant}`}>
+                              {v.variant}
+                            </Label>
+                          </div>
+                        ))}
+                      </RadioGroup>
+                    </div>
+                  )}
               </CardContent>
-              <CardFooter>
-              </CardFooter>
+              <CardFooter></CardFooter>
             </Card>
           ))}
         </div>

@@ -3,7 +3,7 @@ import {
   Card,
   CardTitle,
   CardHeader,
-  CardContent,
+  CardDescription,
 } from "@/components/ui/card";
 import { clsx } from "clsx";
 import { useLocationStore } from "@/stores/useLocationStore";
@@ -41,6 +41,7 @@ export default function LocationStep() {
         resetHasElevator();
         setHasElevatorCompleted(true);
       } else if (location?.item.needsElevator === true) {
+        setHasElevatorCompleted(false);
         setLocationCompleted(true);
       }
     }, [location, setLocationCompleted]);
@@ -48,10 +49,10 @@ export default function LocationStep() {
  return (
    <section className="my-12">
      <div className="px-4 container mx-auto">
-       <h2 className="text-2xl col-span-full font-bold mb-6">
+       <h2 className="text-2xl col-span-full font-bold mb-6 text-center">
          Wo befindet sich das Bad?
        </h2>
-       <div className="flex flex-wrap gap-6 justify-center">
+       <div className="flex flex-wrap gap-6 justify-start">
          {locationContent.map((item) => (
            <Card
              key={item.name}
@@ -63,10 +64,8 @@ export default function LocationStep() {
            >
              <CardHeader>
                <CardTitle>{item.name}</CardTitle>
+               <CardDescription>{item.description}</CardDescription>
              </CardHeader>
-             <CardContent>
-               <p>Bild</p>
-             </CardContent>
            </Card>
          ))}
        </div>

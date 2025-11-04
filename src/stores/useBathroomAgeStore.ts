@@ -14,7 +14,5 @@ export const useBathroomAgeStore = create<bathroomAgeState>((set) => ({
     setBathroomAge: (item) => set({ bathroomAge: item }),
     resetBathroomAge: () => set({ bathroomAge: null }),
     bathroomAgeCompleted: false,
-    setBathroomAgeCompleted: (completed) => set((state) => ({
-        bathroomAgeCompleted: completed && state.bathroomAge !== null,
-    })),
+    setBathroomAgeCompleted: (completed) => set({ bathroomAgeCompleted: completed }),
 }));
